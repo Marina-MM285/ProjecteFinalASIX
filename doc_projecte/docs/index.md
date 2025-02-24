@@ -1,5 +1,6 @@
 # Welcome to Marina's Final Project
 
+For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 ## Commands
 
