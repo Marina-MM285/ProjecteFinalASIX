@@ -1,17 +1,30 @@
-# Welcome to Marina's Final Project
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3
 
-## Commands
+## Estructura del Escenario en GNS3
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+### Dispositivos y Redes
+- **NAT**: Conectado a Internet y al servidor DHCP.
+- **Ubuntu Server (Servidor DHCP)**:
+  - Asigna direcciones IP en dos redes:
+    - **Red 1**: `192.168.10.0/24` (primer switch).
+    - **Red 2**: `172.16.10.0/24` (segundo switch).
+- **Switch 1**:
+  - Dispositivos conectados:
+    - Firefox (IP reservada: `192.168.10.10`).
+    - VPC (IP asignada por DHCP).
+    - Ubuntu Desktop (IP asignada por DHCP, servidor web).
+- **Switch 2**:
+  - Dispositivos conectados:
+    - Firefox (IP reservada: `172.16.10.10`).
+    - VPC (IP asignada por DHCP).
+    - Ubuntu Desktop (IP asignada por DHCP, servidor MySQL).
 
-## Project layout
+---
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Configuración del Servidor DHCP (Ubuntu Server)
+
+1. **Instalar el servidor DHCP**:
+   ```bash
+   sudo apt update
+   sudo apt install isc-dhcp-server

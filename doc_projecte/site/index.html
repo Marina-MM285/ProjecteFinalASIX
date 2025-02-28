@@ -12,7 +12,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Welcome to Marina\u0027s Final Project";
+        var mkdocs_page_name = "Proyecto Final: Monitorizaci\u00f3n de Red y Servicios con Pandora FMS en GNS3";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -40,11 +40,15 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Welcome to Marina's Final Project</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a>
+    <li class="toctree-l2"><a class="reference internal" href="#estructura-del-escenario-en-gns3">Estructura del Escenario en GNS3</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dispositivos-y-redes">Dispositivos y Redes</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</a>
     </li>
     </ul>
                 </li>
@@ -63,7 +67,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Welcome to Marina's Final Project</li>
+      <li class="breadcrumb-item active">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -72,21 +76,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="welcome-to-marinas-final-project">Welcome to Marina's Final Project</h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
+                <h1 id="proyecto-final-monitorizacion-de-red-y-servicios-con-pandora-fms-en-gns3">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</h1>
+<h2 id="estructura-del-escenario-en-gns3">Estructura del Escenario en GNS3</h2>
+<h3 id="dispositivos-y-redes">Dispositivos y Redes</h3>
 <ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
+<li><strong>NAT</strong>: Conectado a Internet y al servidor DHCP.</li>
+<li><strong>Ubuntu Server (Servidor DHCP)</strong>:</li>
+<li>Asigna direcciones IP en dos redes:<ul>
+<li><strong>Red 1</strong>: <code>192.168.10.0/24</code> (primer switch).</li>
+<li><strong>Red 2</strong>: <code>172.16.10.0/24</code> (segundo switch).</li>
 </ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
+</li>
+<li><strong>Switch 1</strong>:</li>
+<li>Dispositivos conectados:<ul>
+<li>Firefox (IP reservada: <code>192.168.10.10</code>).</li>
+<li>VPC (IP asignada por DHCP).</li>
+<li>Ubuntu Desktop (IP asignada por DHCP, servidor web).</li>
+</ul>
+</li>
+<li><strong>Switch 2</strong>:</li>
+<li>Dispositivos conectados:<ul>
+<li>Firefox (IP reservada: <code>172.16.10.10</code>).</li>
+<li>VPC (IP asignada por DHCP).</li>
+<li>Ubuntu Desktop (IP asignada por DHCP, servidor MySQL).</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</h2>
+<ol>
+<li><strong>Instalar el servidor DHCP</strong>:
+   ```bash
+   sudo apt update
+   sudo apt install isc-dhcp-server</li>
+</ol>
               
             </div>
           </div><footer>
@@ -130,5 +153,5 @@ docs/
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-02-24 11:48:15.870961+00:00
+Build Date UTC : 2025-02-28 12:25:35.057708+00:00
 -->
