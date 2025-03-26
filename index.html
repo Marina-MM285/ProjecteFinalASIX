@@ -107,12 +107,25 @@
 <hr />
 <h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
 <ol>
-<li><strong>Configuración del netplan</strong>:</li>
+<li><strong>Configuración del netplan</strong></li>
 </ol>
 <p><code>sudo nano /etc/netplan/50-cloud-init.yaml
    sudo netplan applyp</code></p>
 <ol>
-<li><strong>Configuración del Pandora FMS</strong>:</li>
+<li>
+<p><strong>Configuración del Pandora FMS</strong></p>
+</li>
+<li>
+<p>Instalación de depenencias:
+  <code>sudo apt install -y apache2 php mariadb-server perl libdbd-mysql-perl libwww-perl</code></p>
+</li>
+<li>
+<p>Instalación de Pandora:
+  <code>wget https://sourceforge.net/projects/pandora/files/Pandora%20FMS%207.0NG/770/pandorafms_console-7.0NG.770.noarch.tar.gz
+  tar -xvzf pandorafms_console-7.0NG.770.noarch.tar.gz
+  cd pandorafms_console-7.0NG.770
+  sudo ./pandora_console_install</code></p>
+</li>
 </ol>
               
             </div>
@@ -157,5 +170,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-03-26 15:48:45.763976+00:00
+Build Date UTC : 2025-03-26 16:01:58.618010+00:00
 -->
