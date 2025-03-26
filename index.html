@@ -48,7 +48,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</a>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-ubuntu-server">Configuración del Ubuntu Server</a>
     </li>
     </ul>
                 </li>
@@ -89,26 +89,26 @@
 </li>
 <li><strong>Switch 1</strong>:</li>
 <li>Dispositius conectados:<ul>
-<li>Firefox (IP reservada: <code>192.168.10.10</code>).</li>
+<li>Firefox (IP asignada per DHCP).</li>
 <li>VPC (IP asignada per DHCP).</li>
-<li>Ubuntu Desktop (IP asignada per DHCP, servidor web).</li>
+<li>Ubuntu Desktop (IP reservada: <code>192.168.10.10</code>, servidor web).</li>
 </ul>
 </li>
 <li><strong>Switch 2</strong>:</li>
 <li>Dispositius conectados:<ul>
-<li>Firefox (IP reservada: <code>172.16.10.10</code>).</li>
+<li>Firefox (IP asignada per DHCP).</li>
 <li>VPC (IP asignada per DHCP).</li>
-<li>Ubuntu Desktop (IP asignada per DHCP, servidor MySQL).</li>
+<li>Ubuntu Desktop (IP reservada: <code>172.16.10.10</code>, servidor MySQL).</li>
 </ul>
 </li>
 </ul>
 <hr />
-<h2 id="configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</h2>
+<h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
 <ol>
-<li><strong>Instalar el servidor DHCP</strong>:
+<li><strong>Configuración del netplan</strong>:
    ```bash
-   sudo apt update
-   sudo apt install </li>
+   sudo nano /etc/netplan/50-cloud-init.yaml
+   sudo netplan apply</li>
 </ol>
               
             </div>
@@ -153,5 +153,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-02-28 12:35:56.745716+00:00
+Build Date UTC : 2025-03-26 15:40:05.261240+00:00
 -->
