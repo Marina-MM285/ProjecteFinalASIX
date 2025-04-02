@@ -12,7 +12,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Proyecto Final: Monitorizaci\u00f3n de Red y Servicios con Pandora FMS en GNS3";
+        var mkdocs_page_name = "Projecte Final: Monitorizaci\u00f3n de Red y Servicios con Pandora FMS en GNS3";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -40,15 +40,21 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#estructura-del-escenario-en-gns3">Estructura del Escenario en GNS3</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#dispositivos-y-redes">Dispositivos y Redes</a>
+    <li class="toctree-l3"><a class="reference internal" href="#dispositivos-y-red">Dispositivos y Red</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</a>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-ubuntu-server">Configuración del Ubuntu Server</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#configuracion-del-netplan">Configuración del netplan</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configuracion-de-pandora-fms">Configuración de Pandora FMS</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -67,7 +73,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</li>
+      <li class="breadcrumb-item active">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -76,39 +82,127 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="proyecto-final-monitorizacion-de-red-y-servicios-con-pandora-fms-en-gns3">Proyecto Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</h1>
+                <h1 id="projecte-final-monitorizacion-de-red-y-servicios-con-pandora-fms-en-gns3">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</h1>
 <h2 id="estructura-del-escenario-en-gns3">Estructura del Escenario en GNS3</h2>
-<h3 id="dispositivos-y-redes">Dispositivos y Redes</h3>
+<h3 id="dispositivos-y-red">Dispositivos y Red</h3>
 <ul>
-<li><strong>NAT</strong>: Conectado a Internet y al servidor DHCP.</li>
+<li><strong>NAT</strong>: Conectat a Internet i al servidor DHCP.</li>
 <li><strong>Ubuntu Server (Servidor DHCP)</strong>:</li>
-<li>Asigna direcciones IP en dos redes:<ul>
-<li><strong>Red 1</strong>: <code>192.168.10.0/24</code> (primer switch).</li>
-<li><strong>Red 2</strong>: <code>172.16.10.0/24</code> (segundo switch).</li>
-</ul>
+<li>
+<p>Monitorizar cin el Pandora FMS</p>
 </li>
-<li><strong>Switch 1</strong>:</li>
-<li>Dispositivos conectados:<ul>
-<li>Firefox (IP reservada: <code>192.168.10.10</code>).</li>
+<li>
+<p><strong>Routers</strong></p>
+</li>
+<li>Cisco</li>
+<li>Asignar direcciones IP:</li>
+<li><strong>Xarxa 1</strong>: <code>192.168.10.0/24</code> (primer switch).</li>
+<li>Mikrotik</li>
+<li>Asignar direcciones IP:</li>
+<li>
+<p><strong>Xarxa 2</strong>: <code>172.16.10.0/24</code> (segon switch).</p>
+</li>
+<li>
+<p><strong>Switch 1</strong>:</p>
+</li>
+<li>Dispositivos conectados:</li>
+<li>Firefox (IP asignada por DHCP).</li>
 <li>VPC (IP asignada por DHCP).</li>
-<li>Ubuntu Desktop (IP asignada por DHCP, servidor web).</li>
-</ul>
+<li>Ubuntu Desktop (IP reservada: <code>192.168.10.50</code>, servidor web).</li>
+<li>
+<p>Windows 10 (IP reservada: <code>192.168.10.60</code>, servicio de archivos).</p>
 </li>
-<li><strong>Switch 2</strong>:</li>
-<li>Dispositivos conectados:<ul>
-<li>Firefox (IP reservada: <code>172.16.10.10</code>).</li>
+<li>
+<p><strong>Switch 2</strong>:</p>
+</li>
+<li>Dispositivos conectados:</li>
+<li>Firefox (IP asignada por DHCP).</li>
 <li>VPC (IP asignada por DHCP).</li>
-<li>Ubuntu Desktop (IP asignada por DHCP, servidor MySQL).</li>
+<li>Ubuntu Desktop (IP reservada: <code>172.16.10.50</code>, servidor MySQL).</li>
+<li>Windows 10 (IP reservada: <code>172.16.10.60</code>, servicio de archivos).</li>
 </ul>
-</li>
-</ul>
+<!-- foto de la estructura -->
+
 <hr />
-<h2 id="configuracion-del-servidor-dhcp-ubuntu-server">Configuración del Servidor DHCP (Ubuntu Server)</h2>
+<h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
+<h3 id="configuracion-del-netplan"><strong>Configuración del netplan</strong></h3>
+<pre><code>sudo nano /etc/netplan/50-cloud-init.yaml
+sudo netplan apply
+</code></pre>
+<h3 id="configuracion-de-pandora-fms"><strong>Configuración de Pandora FMS</strong></h3>
 <ol>
-<li><strong>Instalar el servidor DHCP</strong>:
-   ```bash
-   sudo apt update
-   sudo apt install </li>
+<li><strong>Instalación de depenencias:</strong></li>
+<li>apache2</li>
+<li>mariaDB</li>
+<li>php</li>
+</ol>
+<pre><code>sudo apt install apache2 mariadb-server mariadb-client php
+</code></pre>
+<ol>
+<li><strong>Configuración de mariaDB</strong></li>
+</ol>
+<p>Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración</p>
+<p>Buscaremos la linea de <code>bind-address</code> y le pondremos <code>0.0.0.0</code></p>
+<pre><code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+
+bind-address: 0.0.0.0
+</code></pre>
+<ol>
+<li><strong>Creación de la base de datos y el usuario</strong></li>
+</ol>
+<p>Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cliente</p>
+<pre><code>sudo mysql -u root -p
+
+CREATE DATABASE pandora;
+CREATE USER 'pandora'@'%' IDENTIFIED BY 'tu_password_segura';
+GRANT ALL PRIVILEGES ON pandora.* TO 'pandora'@'%';
+FLUSH PRIVILEGES;
+EXIT;
+</code></pre>
+<ol>
+<li><strong>Descarga e instalación de Pandora FMS</strong></li>
+</ol>
+<p>Para ello he clonado el repositorio que github de pandora y dado permisos a este</p>
+<pre><code>git clone https://github.com/pandorafms/pandorafms.git
+sudo mv pandorafms/pandora_console /var/www/html/pandora_console
+
+sudo chown -R www-data:www-data /var/www/html/pandora_console
+sudo chmod -R 755 /var/www/html/pandora_console
+</code></pre>
+<ol>
+<li><strong>Configuración de Apache</strong></li>
+</ol>
+<p>Para ello creamos y editamos el archivo de configuración y lo habilitamos</p>
+<pre><code>sudo cp 000-default.conf pandora.conf
+sudo nano pandora.conf
+
+sudo a2ensite pandira.conf
+sudo systemctl reload apache2
+sudo systemctl restart apache2
+sudo systemctl status apache2
+</code></pre>
+<ol>
+<li><strong>Finalizar instalacion en el navegador</strong></li>
+</ol>
+<p>Una vez hecha la instalación y configuración de apache, podremos acceder a través de un navegador buscando lo siguiente:</p>
+<pre><code>http://192.168.122.16/pandora_console
+</code></pre>
+<p>Teniendo en cuenta que la dirección <code>192.168.122.16</code> es la ip del servidor y <code>pandora_console</code> la carpeta que hemos movido a <code>/var/www/html</code></p>
+<p><img alt="instalacion de pandora" src="pandora_install.png" /></p>
+<p>Una vez dentro simplemente seguimos los pasos de la instalación, nos indicará si hay alguna dependencia que no esté instalada.</p>
+<p><img alt="dependencias instaladas" src="dependencias_install.png" /></p>
+<p>Y nos preguntará acerca de los datos de la base de datos.</p>
+<p><img alt="Datos de la base de datos y el servidor" src="BD_datos.png" /></p>
+<p>Cuando encuentre la base de datos se instalará</p>
+<p><img alt="BD encontrada" src="BD_encontrada.png" />
+<img alt="Pandora instalado" src="FMS_instalado.png" /></p>
+<p>Al volver al servidor y entrar en la carpeta de <code>pandora_console</code> veremos el archivo <code>install.php</code> que se ha creado con la instalación, este habrá que eliminarlo</p>
+<pre><code>cd /var/www/html/pandora_console
+sudo rm install.php
+</code></pre>
+<p><img alt="eliminar install.php" src="install.php.png" /></p>
+<ol>
+<li><strong>Instalación y configuración del serrvidor de Pandora FMS</strong></li>
 </ol>
               
             </div>
@@ -153,5 +247,5 @@
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-02-28 12:29:32.575113+00:00
+Build Date UTC : 2025-04-02 10:27:30.972610+00:00
 -->

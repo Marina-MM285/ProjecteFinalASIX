@@ -3,31 +3,31 @@
 ## Estructura del Escenario en GNS3
 
 ### Dispositivos y Red
-- **NAT**: Conectat a Internet i al servidor DHCP.
+- **NAT**
 - **Ubuntu Server (Servidor DHCP)**:
-- Monitorizar cin el Pandora FMS
+  - Pandora FMS
 
 - **Routers**
-- Cisco
-- Asignar direcciones IP:
-- **Xarxa 1**: `192.168.10.0/24` (primer switch).
-- Mikrotik
-- Asignar direcciones IP:
-- **Xarxa 2**: `172.16.10.0/24` (segon switch).
+  - Cisco
+  - Asignar direcciones IP:
+    - **Xarxa 1**: `192.168.10.0/24`.
+  - Mikrotik
+  - Asignar direcciones IP:
+    - **Xarxa 2**: `172.16.10.0/24`.
 
 - **Switch 1**:
-- Dispositivos conectados:
-- Firefox (IP asignada por DHCP).
-- VPC (IP asignada por DHCP).
-- Ubuntu Desktop (IP reservada: `192.168.10.50`, servidor web).
-- Windows 10 (IP reservada: `192.168.10.60`, servicio de archivos).
+  - Dispositivos conectados:
+    - Firefox (IP asignada por DHCP).
+    - VPC (IP asignada por DHCP).
+    - Ubuntu Desktop (IP reservada: `192.168.10.50`, servidor web).
+    - Windows 10 (IP reservada: `192.168.10.60`, servicio de archivos).
 
 - **Switch 2**:
-- Dispositivos conectados:
-- Firefox (IP asignada por DHCP).
-- VPC (IP asignada por DHCP).
-- Ubuntu Desktop (IP reservada: `172.16.10.50`, servidor MySQL).
-- Windows 10 (IP reservada: `172.16.10.60`, servicio de archivos).
+  - Dispositivos conectados:
+    - Firefox (IP asignada por DHCP).
+    - VPC (IP asignada por DHCP).
+    - Ubuntu Desktop (IP reservada: `172.16.10.50`, servidor MySQL).
+    - Windows 10 (IP reservada: `172.16.10.60`, servicio de archivos).
 
 <!-- foto de la estructura -->
 
@@ -137,3 +137,57 @@ sudo rm install.php
 
 
 1. **Instalación y configuración del serrvidor de Pandora FMS**
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+
+## Configuración de los routers
+
+### Router Cisco
+
+1. **Configuración de las interficies**
+
+Primero configuraremos la interficie `g0/0` para que tenga IP por dhcp
+
+```
+config t
+interface g0/0
+no shutdown
+ip address dhcp
+exit (X2)
+write
+```
+
+Y la interficie `g1/0` la configuraremos con una IP estática
+```
+config t
+interface g0/0
+no shutdown
+ip address 192.168.10.2 255.255.255.0
+exit (X2)
+write
+```
+
+Y ya tendriamos las dos interficies con IPs, para ver la configuración de las interficies y comprobar que lo hayamos hecho bien usaremos el siguiente comando:
+
+```
+show ip interface brief
+```
+![interfaces cisco configuradas](interfaces_cisco.png)
+
+
+
+
+
+
+
