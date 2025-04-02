@@ -127,4 +127,13 @@ Cuando encuentre la base de datos se instalará
 ![BD encontrada](BD_encontrada.png)
 ![Pandora instalado](FMS_instalado.png)
 
-7. **Instalación y configuración del serrvidor de Pandora FMS**
+Al volver al servidor y entrar en la carpeta de `pandora_console` veremos el archivo `install.php` que se ha creado con la instalación, este habrá que eliminarlo
+
+```
+cd /var/www/html/pandora_console
+sudo rm install.php
+```
+![eliminar install.php](install.php.png)
+
+
+1. **Instalación y configuración del serrvidor de Pandora FMS**
