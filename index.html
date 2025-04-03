@@ -229,6 +229,7 @@ sudo rm install.php
 interface g0/0
 no shutdown
 ip address dhcp
+ip nat outside
 exit (X2)
 write
 </code></pre>
@@ -237,6 +238,7 @@ write
 interface g0/0
 no shutdown
 ip address 192.168.10.2 255.255.255.0
+ip nat inside
 exit (X2)
 write
 </code></pre>
@@ -282,6 +284,9 @@ ip dhcp expluded-address 192.168.10.31 192.168.10.254
 <p><img alt="Interfaces cisco" src="interfaces_cisco.png" /></p>
 <p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado.</p>
 <p><img alt="VPC1 con IP" src="VPC1_conIP.png" /></p>
+<ol>
+<li><strong>Enrutamiento entre redes</strong></li>
+</ol>
 <hr />
 <h3 id="router-mikrotik">Router Mikrotik</h3>
 <p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
@@ -293,7 +298,7 @@ En el apartado de <code>Interfaces</code> podemos asignarles nombre.</p>
 <p>Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie <code>ether2</code>.</p>
 <p>Iremos al apartado <code>IP &gt; Addresses</code></p>
 <p><img alt="IP addresses" src="ip_addresses.png" /></p>
-<p><img alt="IPs interficies mikrotik" src="IPs_interficies_mk.png" /></p>
+<p><img alt="IP interficies mikrotik" src="IP_interficies_mk.png" /></p>
 <ol>
 <li><strong>Configuración DHCP</strong></li>
 </ol>
@@ -314,7 +319,9 @@ Action        --&gt; masquerade
 </ol>
 <p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.</p>
 <p><img alt="VPC2 con IP" src="VPC2_conIP.png" /></p>
-<hr />
+<ol>
+<li><strong>Enrutamiento entre redes</strong></li>
+</ol>
               
             </div>
           </div><footer>
@@ -358,5 +365,5 @@ Action        --&gt; masquerade
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-03 08:58:47.353535+00:00
+Build Date UTC : 2025-04-03 11:51:41.418508+00:00
 -->
