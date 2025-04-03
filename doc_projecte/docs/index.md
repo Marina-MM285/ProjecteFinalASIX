@@ -174,6 +174,7 @@ config t
 interface g0/0
 no shutdown
 ip address dhcp
+ip nat outside
 exit (X2)
 write
 ```
@@ -184,6 +185,7 @@ config t
 interface g0/0
 no shutdown
 ip address 192.168.10.2 255.255.255.0
+ip nat inside
 exit (X2)
 write
 ```
@@ -232,6 +234,9 @@ Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango
 ![VPC1 con IP](VPC1_conIP.png)
 
 
+4. **Enrutamiento entre redes**
+
+
 -------------------------------------------------------------------------------------
 
 ### Router Mikrotik
@@ -249,10 +254,9 @@ Iremos al apartado `IP > Addresses`
 
 ![IP addresses](ip_addresses.png)
 
-![IPs interficies mikrotik](IPs_interficies_mk.png)
+![IP interficies mikrotik](IP_interficies_mk.png)
 
-
-2. **Configuración DHCP**
+1. **Configuración DHCP**
 
 Vamos al apartado `IP > DHCP Server` y en el botón de `DHCP Setup` podremos configurar el pool de direcciones, DNS, red, etc.
 
@@ -280,8 +284,7 @@ Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos
 ![VPC2 con IP](VPC2_conIP.png)
 
 
--------------------------------------------------------------------------------------
-
+5. **Enrutamiento entre redes**
 
 
 
