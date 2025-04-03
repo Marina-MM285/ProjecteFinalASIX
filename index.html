@@ -93,28 +93,44 @@
                 <h1 id="projecte-final-monitorizacion-de-red-y-servicios-con-pandora-fms-en-gns3">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</h1>
 <h2 id="estructura-del-escenario-en-gns3">Estructura del Escenario en GNS3</h2>
 <h3 id="dispositivos-y-red">Dispositivos y Red</h3>
-<p><strong>NAT</strong>
-<strong>Ubuntu Server (Servidor DHCP)</strong>:
-    - Pandora FMS</p>
-<p><strong>Routers</strong>
-  - Cisco
-  - Asignar direcciones IP:
-    - <strong>Xarxa 1</strong>: <code>192.168.10.0/24</code>.
-  - Mikrotik
-  - Asignar direcciones IP:
-    - <strong>Xarxa 2</strong>: <code>172.16.10.0/24</code>.</p>
-<p><strong>Switch 1</strong>:
-  - Dispositivos conectados:
-    - Firefox (IP asignada por DHCP).
-    - VPC (IP asignada por DHCP).
-    - Ubuntu Desktop (IP reservada: <code>192.168.10.50</code>, servidor web).
-    - Windows 10 (IP reservada: <code>192.168.10.60</code>, servicio de archivos).</p>
-<p><strong>Switch 2</strong>:
-  - Dispositivos conectados:
-    - Firefox (IP asignada por DHCP).
-    - VPC (IP asignada por DHCP).
-    - Ubuntu Desktop (IP reservada: <code>172.16.10.50</code>, servidor MySQL).
-    - Windows 10 (IP reservada: <code>172.16.10.60</code>, servicio de archivos).</p>
+<p><strong>NAT</strong></p>
+<p><strong>Ubuntu Server (Servidor DHCP)</strong>:</p>
+<ul>
+<li>Pandora FMS</li>
+</ul>
+<p><strong>Routers</strong></p>
+<ul>
+<li>Cisco</li>
+<li>Asignar direcciones IP:<ul>
+<li><strong>Xarxa 1</strong>: <code>192.168.10.0/24</code>.</li>
+</ul>
+</li>
+<li>Mikrotik</li>
+<li>Asignar direcciones IP:<ul>
+<li><strong>Xarxa 2</strong>: <code>172.16.10.0/24</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Switch 1</strong>:</p>
+<ul>
+<li>Dispositivos conectados:<ul>
+<li>Firefox (IP asignada por DHCP).</li>
+<li>VPC (IP asignada por DHCP).</li>
+<li>Ubuntu Desktop (IP reservada: <code>192.168.10.50</code>, servidor web).</li>
+<li>Windows 10 (IP reservada: <code>192.168.10.60</code>, servicio de archivos).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Switch 2</strong>:</p>
+<ul>
+<li>Dispositivos conectados:<ul>
+<li>Firefox (IP asignada por DHCP).</li>
+<li>VPC (IP asignada por DHCP).</li>
+<li>Ubuntu Desktop (IP reservada: <code>172.16.10.50</code>, servidor MySQL).</li>
+<li>Windows 10 (IP reservada: <code>172.16.10.60</code>, servicio de archivos).</li>
+</ul>
+</li>
+</ul>
 <!-- foto de la estructura -->
 
 <hr />
@@ -125,8 +141,12 @@ sudo netplan apply
 </code></pre>
 <h3 id="configuracion-de-pandora-fms"><strong>Configuración de Pandora FMS</strong></h3>
 <ol>
-<li><strong>Instalación de depenencias:</strong></li>
-<li>apache2</li>
+<li>
+<p><strong>Instalación de depenencias:</strong></p>
+</li>
+<li>
+<p>apache2</p>
+</li>
 <li>mariaDB</li>
 <li>php</li>
 </ol>
@@ -237,17 +257,27 @@ exit
 ip dhcp expluded-address 192.168.10.3 192.168.10.9
 ip dhcp expluded-address 192.168.10.31 192.168.10.254
 </code></pre>
-<p>Donde:
-  - <strong>network</strong> --&gt; es la direcion de red en la que vas a hacer el pool
-  - <strong>dns-server</strong> --&gt; resolucion de nombre
-    - Yo he puesto el de google, si tienes uno propio puedes ponerlo
-  - <strong>default-router</strong> --&gt; es la direccion por la cual saldrán en caso de ir a internet
-    - en mi caso es la direccion <code>192.168.10.2</code> pero puede ser cualquier otra que tu hayas asignado.
-  - <strong>ip dhcp excluded-address</strong> --&gt; son las direcciones ip que <strong>NO</strong> vamos a asignar a los equipos
-    - Yo queria asignar de la <code>192.168.10.10</code> a la <code>192.168.10.30</code> por lo que he excluido todas las demás</p>
-<ol>
-<li><strong>Comprobar la funcionalidad</strong></li>
-</ol>
+<p>Donde:</p>
+<ul>
+<li><strong>network</strong> --&gt; es la direcion de red en la que vas a hacer el pool</li>
+<li><strong>dns-server</strong> --&gt; resolucion de nombre<ul>
+<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
+</ul>
+</li>
+<li><strong>default-router</strong> --&gt; es la direccion por la cual saldrán en caso de ir a internet<ul>
+<li>en mi caso es la direccion <code>192.168.10.2</code> pero puede ser cualquier otra que tu hayas asignado.</li>
+</ul>
+</li>
+<li>
+<p><strong>ip dhcp excluded-address</strong> --&gt; son las direcciones ip que <strong>NO</strong> vamos a asignar a los equipos</p>
+<ul>
+<li>Yo queria asignar de la <code>192.168.10.10</code> a la <code>192.168.10.30</code> por lo que he excluido todas las demás</li>
+</ul>
+</li>
+<li>
+<p><strong>Comprobar la funcionalidad</strong></p>
+</li>
+</ul>
 <p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
 <p><img alt="Interfaces cisco" src="interfaces_cisco.png" /></p>
 <p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado.</p>
@@ -328,5 +358,5 @@ Action        --&gt; masquerade
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-03 08:55:15.070175+00:00
+Build Date UTC : 2025-04-03 08:58:47.353535+00:00
 -->
