@@ -4,10 +4,14 @@
 
 ### Dispositivos y Red
 **NAT**
+
 **Ubuntu Server (Servidor DHCP)**:
-    - Pandora FMS
+  
+  - Pandora FMS
+
 
 **Routers**
+  
   - Cisco
   - Asignar direcciones IP:
     - **Xarxa 1**: `192.168.10.0/24`.
@@ -15,14 +19,18 @@
   - Asignar direcciones IP:
     - **Xarxa 2**: `172.16.10.0/24`.
 
+
 **Switch 1**:
+  
   - Dispositivos conectados:
     - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
     - Ubuntu Desktop (IP reservada: `192.168.10.50`, servidor web).
     - Windows 10 (IP reservada: `192.168.10.60`, servicio de archivos).
 
+
 **Switch 2**:
+  
   - Dispositivos conectados:
     - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
@@ -36,6 +44,7 @@
 ## Configuración del Ubuntu Server
 
 ### **Configuración del netplan**
+
 ```
 sudo nano /etc/netplan/50-cloud-init.yaml
 sudo netplan apply
@@ -44,9 +53,10 @@ sudo netplan apply
 ### **Configuración de Pandora FMS**
 
 1. **Instalación de depenencias:**
-   - apache2
-   - mariaDB
-   - php
+   
+  - apache2
+  - mariaDB
+  - php
 
 ```
 sudo apt install apache2 mariadb-server mariadb-client php
@@ -201,6 +211,7 @@ ip dhcp expluded-address 192.168.10.31 192.168.10.254
 ```
 
 Donde:
+
   - **network** --> es la direcion de red en la que vas a hacer el pool
   - **dns-server** --> resolucion de nombre
     - Yo he puesto el de google, si tienes uno propio puedes ponerlo
