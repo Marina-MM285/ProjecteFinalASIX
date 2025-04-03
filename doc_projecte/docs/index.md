@@ -168,7 +168,7 @@ exit (X2)
 write
 ```
 
-Y la interficie `g1/0` la configuraremos con una IP estática
+En la interficie `g1/0` la configuraremos con una IP estática
 ```
 config t
 interface g0/0
@@ -184,6 +184,51 @@ Y ya tendriamos las dos interficies con IPs, para ver la configuración de las i
 show ip interface brief
 ```
 ![interfaces cisco configuradas](interfaces_cisco.png)
+
+2. **Configuración DHCP**
+Vamos a crear un "POOL" ,que es el conjunto de direcciones que vamos a usar para asignarselas a los VPCs, y a configurarlo para que de las direcciones.
+
+```
+config t
+ip dhcp pool POOL1
+network 192.168.10.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 192.168.10.2
+exit
+ip dhcp expluded-address 192.168.10.3 192.168.10.9
+ip dhcp expluded-address 192.168.10.31 192.168.10.254
+```
+
+- Donde:
+  - **network** --> es la direcion de la red en la que vas a hacer el pool
+  - **dns-server** --> resolucion de nombre
+    - Yo he puesto el de google, si tienes uno propio puedes ponerlo
+  - **default-router** --> es la direccion por la cual saldrán en caso de ir a internet
+    - en mi caso es la direccion `192.168.10.2` pero puede ser cualquier otra que tu hayas asignado.
+  - **ip dhcp excluded-address** --> son las direcciones ip que **NO** vamos a asignar a los equipos
+    - Yo queria asignar de la `192.168.10.10` a la `192.168.10.30` por lo que he excluido todas las demás
+
+
+3. **Comprobar la funcionalidad**
+
+Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.
+
+![Interfaces cisco](interfaces_cisco.png)
+
+Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado.
+
+![VPC1 con IP](VPC1_conIP.png)
+
+
+
+
+### Router Mikrotik
+
+
+
+
+
+
 
 
 
