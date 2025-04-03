@@ -201,7 +201,7 @@ ip dhcp expluded-address 192.168.10.31 192.168.10.254
 ```
 
 Donde:
-  - **network** --> es la direcion de la red en la que vas a hacer el pool
+  - **network** --> es la direcion de red en la que vas a hacer el pool
   - **dns-server** --> resolucion de nombre
     - Yo he puesto el de google, si tienes uno propio puedes ponerlo
   - **default-router** --> es la direccion por la cual saldrán en caso de ir a internet
@@ -210,7 +210,7 @@ Donde:
     - Yo queria asignar de la `192.168.10.10` a la `192.168.10.30` por lo que he excluido todas las demás
 
 
-1. **Comprobar la funcionalidad**
+3. **Comprobar la funcionalidad**
 
 Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.
 
@@ -221,10 +221,55 @@ Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango
 ![VPC1 con IP](VPC1_conIP.png)
 
 
-
+-------------------------------------------------------------------------------------
 
 ### Router Mikrotik
 
+Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
+En el apartado de `Interfaces` podemos asignarles nombre.
+
+![interfaces de mikrotik](interfaces_mikrotik.png)
+
+1. **Configuración de las interficies**
+
+Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie `ether2`.
+
+Iremos al apartado `IP > Addresses`
+
+![IP addresses](ip_addresses.png)
+
+![IPs interficies mikrotik](IPs_interficies_mk.png)
+
+
+2. **Configuración DHCP**
+
+Vamos al apartado `IP > DHCP Server` y en el botón de `DHCP Setup` podremos configurar el pool de direcciones, DNS, red, etc.
+
+Para poder ver el pool de direcciones entraremos en el apartado `IP > Pool`
+
+![DHCP y pool de mikrotik](dhcp_pool_mk.png)
+
+
+3. **NAT configuration**
+
+Para poder salir a internet necesitamos configurar el nat, para ello iremos al apartado `IP > Firewall > NAT`, ahí clicaremos en el `+` y especificaremos lo siguiente:
+
+```
+chain         --> srcnat
+Out.Interface --> ether1_dhcp (que es la interfaz por la que podemos salir a internet)
+Action        --> masquerade
+```
+![NAT mikrotik](nat_mk.png)
+
+
+4. **Comprobar la funcionalidad**
+
+Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.
+
+![VPC2 con IP](VPC2_conIP.png)
+
+
+-------------------------------------------------------------------------------------
 
 
 
