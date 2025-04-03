@@ -3,11 +3,11 @@
 ## Estructura del Escenario en GNS3
 
 ### Dispositivos y Red
-- **NAT**
-- **Ubuntu Server (Servidor DHCP)**:
-  - Pandora FMS
+**NAT**
+**Ubuntu Server (Servidor DHCP)**:
+    - Pandora FMS
 
-- **Routers**
+**Routers**
   - Cisco
   - Asignar direcciones IP:
     - **Xarxa 1**: `192.168.10.0/24`.
@@ -15,14 +15,14 @@
   - Asignar direcciones IP:
     - **Xarxa 2**: `172.16.10.0/24`.
 
-- **Switch 1**:
+**Switch 1**:
   - Dispositivos conectados:
     - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
     - Ubuntu Desktop (IP reservada: `192.168.10.50`, servidor web).
     - Windows 10 (IP reservada: `192.168.10.60`, servicio de archivos).
 
-- **Switch 2**:
+**Switch 2**:
   - Dispositivos conectados:
     - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
@@ -44,9 +44,9 @@ sudo netplan apply
 ### **Configuración de Pandora FMS**
 
 1. **Instalación de depenencias:**
-- apache2
-- mariaDB
-- php
+   - apache2
+   - mariaDB
+   - php
 
 ```
 sudo apt install apache2 mariadb-server mariadb-client php
@@ -186,6 +186,7 @@ show ip interface brief
 ![interfaces cisco configuradas](interfaces_cisco.png)
 
 2. **Configuración DHCP**
+
 Vamos a crear un "POOL" ,que es el conjunto de direcciones que vamos a usar para asignarselas a los VPCs, y a configurarlo para que de las direcciones.
 
 ```
@@ -199,7 +200,7 @@ ip dhcp expluded-address 192.168.10.3 192.168.10.9
 ip dhcp expluded-address 192.168.10.31 192.168.10.254
 ```
 
-- Donde:
+Donde:
   - **network** --> es la direcion de la red en la que vas a hacer el pool
   - **dns-server** --> resolucion de nombre
     - Yo he puesto el de google, si tienes uno propio puedes ponerlo
@@ -209,7 +210,7 @@ ip dhcp expluded-address 192.168.10.31 192.168.10.254
     - Yo queria asignar de la `192.168.10.10` a la `192.168.10.30` por lo que he excluido todas las demás
 
 
-3. **Comprobar la funcionalidad**
+1. **Comprobar la funcionalidad**
 
 Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.
 
