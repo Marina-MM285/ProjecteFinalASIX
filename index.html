@@ -64,6 +64,8 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-web">Configuración del servidor web</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -232,20 +234,22 @@ ip address dhcp
 ip nat outside
 exit (X2)
 write
+copy run start
 </code></pre>
 <p>En la interficie <code>g1/0</code> la configuraremos con una IP estática</p>
 <pre><code>config t
 interface g0/0
 no shutdown
-ip address 192.168.10.2 255.255.255.0
+ip address 192.168.10.1 255.255.255.0
 ip nat inside
 exit (X2)
 write
+copy run start
 </code></pre>
 <p>Y ya tendriamos las dos interficies con IPs, para ver la configuración de las interficies y comprobar que lo hayamos hecho bien usaremos el siguiente comando:</p>
 <pre><code>show ip interface brief
 </code></pre>
-<p><img alt="interfaces cisco configuradas" src="interfaces_cisco.png" /></p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <ol>
 <li><strong>Configuración DHCP</strong></li>
 </ol>
@@ -254,20 +258,22 @@ write
 ip dhcp pool POOL1
 network 192.168.10.0 255.255.255.0
 dns-server 8.8.8.8
-default-router 192.168.10.2
+default-router 192.168.10.1
 exit
-ip dhcp expluded-address 192.168.10.3 192.168.10.9
+ip dhcp expluded-address 192.168.10.1 192.168.10.9
 ip dhcp expluded-address 192.168.10.31 192.168.10.254
+write
+copy run start
 </code></pre>
 <p>Donde:</p>
 <ul>
 <li><strong>network</strong> --&gt; es la direcion de red en la que vas a hacer el pool</li>
-<li><strong>dns-server</strong> --&gt; resolucion de nombre<ul>
+<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
 <li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
 </ul>
 </li>
-<li><strong>default-router</strong> --&gt; es la direccion por la cual saldrán en caso de ir a internet<ul>
-<li>en mi caso es la direccion <code>192.168.10.2</code> pero puede ser cualquier otra que tu hayas asignado.</li>
+<li><strong>default-router</strong> --&gt; es la direccion por la cual saldrán<ul>
+<li>en mi caso es la direccion <code>192.168.10.1</code></li>
 </ul>
 </li>
 <li>
@@ -277,34 +283,97 @@ ip dhcp expluded-address 192.168.10.31 192.168.10.254
 </ul>
 </li>
 <li>
-<p><strong>Comprobar la funcionalidad</strong></p>
+<p><strong>Reserva de direcciones IP</strong></p>
 </li>
 </ul>
-<p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
-<p><img alt="Interfaces cisco" src="interfaces_cisco.png" /></p>
-<p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado.</p>
-<p><img alt="VPC1 con IP" src="VPC1_conIP.png" /></p>
+<p>Para reservar direcciones IP tendremos que crear un pool y decirle cual es la ip que queremos asignar al igual que la dirección MAC del equipo al cual le asignaremos dicha dirección reservada.</p>
+<pre><code>config t
+ip dhcp pool UbD
+host 192.168.10.50 255.255.255.0
+client-identifier 010c.bf1c.8700.00
+default-router 192.168.10.1
+dns-server 8.8.8.8
+exit
+copy run start
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>UbD</strong> --&gt; es el nombre que le asignamos al pool</li>
+<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
+<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
+</ul>
+</li>
+<li><strong>default-router</strong> --&gt; es la dirección por la cual saldrán<ul>
+<li>en mi caso es la <code>192.168.10.1</code></li>
+</ul>
+</li>
+<li><strong>host</strong> --&gt; es la dirección que queremos reservar para un equipo<ul>
+<li>Yo queria asignar de la <code>192.168.10.50</code> y la <code>192.168.10.60</code></li>
+</ul>
+</li>
+<li><strong>client-identifier</strong> --&gt; es la dirección MAC con un <code>01</code> delante de esta y agrupada en 4, menos los 2 ultimos.</li>
+</ul>
+<p>Haremos los mismos pasos para todos los equipos que queramos reservales direcciones. En mi caso yo lo queria para el Ubuntu Desktop y para el Windows 10.</p>
+<pre><code>config t
+ip dhcp pool W11
+host 192.168.10.60 255.255.255.0
+client-identifier 010c.800f.2f00.00
+default-router 192.168.10.1
+dns-server 8.8.8.8
+exit
+copy run start
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em>
+<em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <ol>
 <li><strong>Enrutamiento entre redes</strong></li>
 </ol>
+<p>Vamos a indicarle al router cómo llegar a la red del otro router, vamos a ejecutar los siguientes comandos:</p>
+<pre><code>config t
+ip route 172.16.10.0 255.255.255.0 192.168.122.212
+exit
+write
+copy run start
+</code></pre>
+<p>Le estamos indicando al router que el tráfico que vaya a la red <code>172.16.10.0/24</code> debe entrar por la interfaz <code>192.168.122.212</code> (que es la interfaz del router mikrotik).</p>
+<pre><code>show ip route
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Comprobar la funcionalidad</strong></li>
+</ol>
+<p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
+<p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado. Además podrá hacerle ping al VPC2 sin problemas.</p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <hr />
 <h3 id="router-mikrotik">Router Mikrotik</h3>
 <p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
 En el apartado de <code>Interfaces</code> podemos asignarles nombre.</p>
-<p><img alt="interfaces de mikrotik" src="interfaces_mikrotik.png" /></p>
 <ol>
 <li><strong>Configuración de las interficies</strong></li>
 </ol>
 <p>Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie <code>ether2</code>.</p>
 <p>Iremos al apartado <code>IP &gt; Addresses</code></p>
-<p><img alt="IP addresses" src="ip_addresses.png" /></p>
-<p><img alt="IP interficies mikrotik" src="IP_interficies_mk.png" /></p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <ol>
 <li><strong>Configuración DHCP</strong></li>
 </ol>
 <p>Vamos al apartado <code>IP &gt; DHCP Server</code> y en el botón de <code>DHCP Setup</code> podremos configurar el pool de direcciones, DNS, red, etc.</p>
 <p>Para poder ver el pool de direcciones entraremos en el apartado <code>IP &gt; Pool</code></p>
-<p><img alt="DHCP y pool de mikrotik" src="dhcp_pool_mk.png" /></p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Reserva de direcciones IP</strong></li>
+</ol>
+<p>Para reservar direcciones IP tendremos entrar en <code>IP &gt; DHCP Server &gt; Leases</code>, aquí clicamos al <code>+</code> y especificamos la ip que queremos reservar y la MAC del equipo.</p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Enrutamiento entre redes</strong></li>
+</ol>
+<p>Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en <code>IP &gt; Routes</code> y agregaremos una nueva ruta especificando los siguiente:</p>
+<pre><code>Dst.Address   --&gt; 192.168.10.0/24 
+Gateway       --&gt; 192.168.122.254
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <ol>
 <li><strong>NAT configuration</strong></li>
 </ol>
@@ -318,10 +387,50 @@ Action        --&gt; masquerade
 <li><strong>Comprobar la funcionalidad</strong></li>
 </ol>
 <p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.</p>
-<p><img alt="VPC2 con IP" src="VPC2_conIP.png" /></p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<hr />
+<h2 id="configuracion-del-servidor-web">Configuración del servidor web</h2>
 <ol>
-<li><strong>Enrutamiento entre redes</strong></li>
+<li><strong>Instalación de apache</strong></li>
 </ol>
+<pre><code>sudo apt update
+sudo apt install apache2
+</code></pre>
+<ol>
+<li><strong>Creación del index.html</strong></li>
+</ol>
+<p>Primero crearemos una carpeta en el directorio <code>/var/www/html</code> para tener el archivo <code>index.html</code> donde editaremos a nuestro gusto la página web sin equivocarnos de índice.</p>
+<pre><code>cd /var/www/html
+sudo mkdir marina
+cd marina
+sudo nano index.html
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Creación del archivo de configuración</strong></li>
+</ol>
+<p>Ahora crearemos y editaremos el archivo de configuración.</p>
+<pre><code>cd /etc/apache2/sites-available
+sudo cp 000-default.conf marina.conf
+sudo nano marina.conf
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p>Una vez creado y editado el archivo de configuración, habilitamos la pàgina web</p>
+<pre><code>cd /etc/apache2/sites-available
+sudo a2ensite marina.conf
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p>Antes de poder acceder a ella por el nombre que le hemos dado, en este caso <code>www.marina.com</code> debemos hacer al equipo que la propia máquina pueda resolver el nombre, esto lo especificaremos en <code>/etc/hosts</code></p>
+<pre><code>sudo nano /etc/hosts
+
+192.168.10.50 www.marina.com
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>192.168.10.50</strong> --&gt; es la ip de la propia máquina</li>
+<li><strong>www.marina.com</strong> --&gt; el nombre que buscaremos en el navegador</li>
+</ul>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
               
             </div>
           </div><footer>
@@ -365,5 +474,5 @@ Action        --&gt; masquerade
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-03 11:51:41.418508+00:00
+Build Date UTC : 2025-04-11 08:58:03.102990+00:00
 -->
