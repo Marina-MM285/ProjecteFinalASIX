@@ -377,16 +377,72 @@ Action        --> masquerade
 
 Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.
 
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
 
 -------------------------------------------------------------------------------------
 
 ## Configuración del servidor web
 
+1. **Instalación de apache**
+
+```
+sudo apt update
+sudo apt install apache2
+```
+
+2. **Creación del index.html**
+
+Primero crearemos una carpeta en el directorio `/var/www/html` para tener el archivo `index.html` donde editaremos a nuestro gusto la página web sin equivocarnos de índice.
+
+```
+cd /var/www/html
+sudo mkdir marina
+cd marina
+sudo nano index.html
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+3. **Creación del archivo de configuración**
+
+Ahora crearemos y editaremos el archivo de configuración.
+
+```
+cd /etc/apache2/sites-available
+sudo cp 000-default.conf marina.conf
+sudo nano marina.conf
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
 
+Una vez creado y editado el archivo de configuración, habilitamos la pàgina web
+
+```
+cd /etc/apache2/sites-available
+sudo a2ensite marina.conf
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
 
+Antes de poder acceder a ella por el nombre que le hemos dado, en este caso `www.marina.com` debemos hacer al equipo que la propia máquina pueda resolver el nombre, esto lo especificaremos en `/etc/hosts`
 
+```
+sudo nano /etc/hosts
+
+192.168.10.50 www.marina.com
+```
+
+Donde:
+
+  - **192.168.10.50** --> es la ip de la propia máquina
+  - **www.marina.com** --> el nombre que buscaremos en el navegador
+
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
 
 
