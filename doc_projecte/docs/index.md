@@ -54,6 +54,7 @@ sudo netplan apply
 
 1. **Instalación de depenencias:**
    
+Tendremos que instalar las siguientes dependencias:
   - apache2
   - mariaDB
   - php
@@ -62,7 +63,7 @@ sudo netplan apply
 sudo apt install apache2 mariadb-server mariadb-client php
 ```
 
-2. **Configuración de mariaDB**
+1. **Configuración de mariaDB**
 
 Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración
 
