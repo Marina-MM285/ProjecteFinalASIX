@@ -55,6 +55,7 @@ sudo netplan apply
 1. **Instalación de depenencias:**
    
 Tendremos que instalar las siguientes dependencias:
+
   - apache2
   - mariaDB
   - php
