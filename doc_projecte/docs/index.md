@@ -37,7 +37,7 @@
     - Ubuntu Desktop (IP reservada: `172.16.10.50`, servidor MySQL).
     - Windows 10 (IP reservada: `172.16.10.60`, servicio de archivos).
 
-<!-- foto de la estructura -->
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
 -------------------------------------------------------------------------------------
 
@@ -310,14 +310,6 @@ Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango
 
 
 
-
-
-
-
-
-
-
-
 -------------------------------------------------------------------------------------
 
 ### Router Mikrotik
@@ -407,6 +399,7 @@ sudo nano index.html
 
 *FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
+
 3. **Creación del archivo de configuración**
 
 Ahora crearemos y editaremos el archivo de configuración.
@@ -445,6 +438,209 @@ Donde:
 
 
 *FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+-------------------------------------------------------------------------------------
+
+## Configuración del servidor MySQL
+
+1. **Instalación de mysql**
+
+```
+sudo apt update
+sudo apt install mysql-server
+```
+
+2. **Archivo de configuración**
+
+Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de `bind-address` y la cambiamos la dirección IP a `0.0.0.0`
+```
+sudo nano /mysql/mysql.conf.d/mysqld.conf
+
+bind-address  = 0.0.0.0
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+3. **Creación de la base de datos**
+
+Vamos a entrar en mysql a través de la terminal, crearemos la base de datos y las tablas.
+
+```
+sudo mysql
+
+CREATE DATABASE IF NOT EXISTS proyecto_final;
+USE proyecto_final;
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+```
+CREATE TABLE nombre_tabla (
+    columnas tipo esp,
+    columnas tipo esp
+);
+```
+
+Donde:
+
+  - **nombre_tabla** --> es el nombre que le asignaremos a la tabla que crearemos
+  - **columnas** --> el nombre que tendrá la columna
+  - **tipo** --> el tipo de información que habrá
+    - Ejemplo: INT, Varchar, etc
+  - **esp** --> si es primary key, not null, auto_increment, etc
+    - no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.
+
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+
+
+4. **Inserción de la información**
+
+Una vez que tengamos las tablas creadas podremos poner la información en estas.
+
+```
+INSERT INTO nombre_tabla (nombre_columna, nombre_columna, nombre_columna) VALUES
+(X,"X", "X"),
+(X,"X", "X");
+```
+
+Donde:
+
+  - **nombre_tabla** --> es el nombre de una de las tablas creadas
+  - **nombre_columna** --> es el nombre de la/s columna/s en las que añadiremos información
+  - **X** --> es la información que especificaremos
+    - habrá tantas `X` como columnas haya
+    - los numeros se especificarán sin comillas
+    - las palabras se especificarán con comillas
+
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+
+
+
+5. **Comprobar el funcionamiento**
+
+Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas 
+
+- Listar todo de una tabla en específico
+
+```
+select * from tabla;
+```
+
+Donde:
+
+- **tabla** --> es el nombre de la tambla que queremos ver
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+
+-------------------------------------------------------------------------------------
+
+## Configuración del servicio de archivos
+
+
+1. **Asignar el mismo grupo de trabajo**
+
+Primero vamos a poenr los dos Windows 10 en el mismo grupo de trabajo, en mi caso lo he personalizado y los he puesto en `PF_MARINA`, iremos a:
+
+```
+Ajustes > Sistema > Acerca de > Cambiar el nombre del equipo (avanzado) > Cambiar
+
+Grupo de trabajo:   PF_MARINA
+```
+
+Nos pedirá reiniciar el equipo y ya los tendremos a los dos dentro del mismo grupo de trabajo.
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+
+
+2. **Creación de la carpeta compartida**
+
+Vamos a crear la carpeta que vamos a compartir en uno de los dos equipos. No importa en que equipo creemos la carpeta, yo por ejemplo la crearé en el equipo `Windows102` y añadiré unos documentos dentro de esta.
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+
+
+
+
+3. **Creación de usuarios**
+
+Para poder hacer pruebas vamos a crear tres usuarios, los cuales tendrán diferentes permisos sobre la carpeta compartida.
+
+- User1: Usuario1
+- User2: Usuario2
+- User3: Usuario3
+
+Iremos a:
+
+```
+Administrador de equipos > Usuarios y grupos locales > Usuarios
+
+Clic derecho > Usuario Nuevo
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+
+
+
+4. **Compartir la carpeta**
+
+Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.
+
+- User1: Usuario1
+  - Lectura y escritura
+- User2: Usuario2
+  - Solo lectura
+- User3: Usuario3
+  - Denegaremos el acceso
+
+Haremos lo siguiente en la carpeta
+
+```
+Clic derecho > Propiedades > Compartir > Uso compartido avanzado > Compartir esta carpeta
+
+Clic derecho > Propiedades > Seguridad > Editar > Agregar
+```
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+
+*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+
+
+5. **Comprobar el funcionamiento**
+
+Para comprobar que funciona, entraremos en el equipo `Windows101` y haremos los siguiente:
+
+```
+Explorador de archivos > Red > \\172.16.10.60
+```
+Donde:
+
+  - **\\172.16.10.60** --> es la dirección IP del otro equipo
+
+
+
+
+
+
+
+
+
 
 
 
