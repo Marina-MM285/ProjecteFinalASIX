@@ -200,7 +200,8 @@ Y ya tendriamos las dos interficies con IPs, para ver la configuración de las i
 show ip interface brief
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Show ip interface brief](interface_brief.png)
+
 
 2. **Configuración DHCP**
 
@@ -270,11 +271,10 @@ exit
 copy run start
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Show ip dhcp binding](dhcp_binding.png)
 
 
-4. **Enrutamiento entre redes**
+1. **Enrutamiento entre redes**
 
 Vamos a indicarle al router cómo llegar a la red del otro router, vamos a ejecutar los siguientes comandos:
 
@@ -292,22 +292,21 @@ Le estamos indicando al router que el tráfico que vaya a la red `172.16.10.0/24
 show ip route
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Show ip route](ip_route.png)
 
 
 
 
-5. **Comprobar la funcionalidad**
+1. **Comprobar la funcionalidad**
 
 Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.
 
 
 Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado. Además podrá hacerle ping al VPC2 sin problemas.
 
+![DHCP del VPC1](vpc1_dhcp.png)
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
-
-
+![Ping al VPC2](ping_vpc2.png)
 
 
 -------------------------------------------------------------------------------------
@@ -601,11 +600,11 @@ Clic derecho > Usuario Nuevo
 Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.
 
 - User1: Usuario1
-  - Lectura y escritura
+    - Lectura y escritura
 - User2: Usuario2
-  - Solo lectura
+    - Solo lectura
 - User3: Usuario3
-  - Denegaremos el acceso
+    - Denegaremos el acceso
 
 Haremos lo siguiente en la carpeta
 
@@ -622,7 +621,7 @@ Clic derecho > Propiedades > Seguridad > Editar > Agregar
 *FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
 
 
-5. **Comprobar el funcionamiento**
+1. **Comprobar el funcionamiento**
 
 Para comprobar que funciona, entraremos en el equipo `Windows101` y haremos los siguiente:
 
@@ -631,7 +630,7 @@ Explorador de archivos > Red > \\172.16.10.60
 ```
 Donde:
 
-  - **\\172.16.10.60** --> es la dirección IP del otro equipo
+  - **\ \172.16.10.60** --> es la dirección IP del otro equipo
 
 
 

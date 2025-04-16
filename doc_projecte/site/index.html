@@ -66,6 +66,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-web">Configuración del servidor web</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-mysql">Configuración del servidor MySQL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servicio-de-archivos">Configuración del servicio de archivos</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -133,8 +137,7 @@
 </ul>
 </li>
 </ul>
-<!-- foto de la estructura -->
-
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <hr />
 <h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
 <h3 id="configuracion-del-netplan"><strong>Configuración del netplan</strong></h3>
@@ -430,6 +433,149 @@ sudo a2ensite marina.conf
 <li><strong>www.marina.com</strong> --&gt; el nombre que buscaremos en el navegador</li>
 </ul>
 <p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<hr />
+<h2 id="configuracion-del-servidor-mysql">Configuración del servidor MySQL</h2>
+<ol>
+<li><strong>Instalación de mysql</strong></li>
+</ol>
+<pre><code>sudo apt update
+sudo apt install mysql-server
+</code></pre>
+<ol>
+<li><strong>Archivo de configuración</strong></li>
+</ol>
+<p>Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de <code>bind-address</code> y la cambiamos la dirección IP a <code>0.0.0.0</code></p>
+<pre><code>sudo nano /mysql/mysql.conf.d/mysqld.conf
+
+bind-address  = 0.0.0.0
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Creación de la base de datos</strong></li>
+</ol>
+<p>Vamos a entrar en mysql a través de la terminal, crearemos la base de datos y las tablas.</p>
+<pre><code>sudo mysql
+
+CREATE DATABASE IF NOT EXISTS proyecto_final;
+USE proyecto_final;
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<pre><code>CREATE TABLE nombre_tabla (
+    columnas tipo esp,
+    columnas tipo esp
+);
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>nombre_tabla</strong> --&gt; es el nombre que le asignaremos a la tabla que crearemos</li>
+<li><strong>columnas</strong> --&gt; el nombre que tendrá la columna</li>
+<li><strong>tipo</strong> --&gt; el tipo de información que habrá<ul>
+<li>Ejemplo: INT, Varchar, etc</li>
+</ul>
+</li>
+<li><strong>esp</strong> --&gt; si es primary key, not null, auto_increment, etc<ul>
+<li>no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.</li>
+</ul>
+</li>
+</ul>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Inserción de la información</strong></li>
+</ol>
+<p>Una vez que tengamos las tablas creadas podremos poner la información en estas.</p>
+<pre><code>INSERT INTO nombre_tabla (nombre_columna, nombre_columna, nombre_columna) VALUES
+(X,&quot;X&quot;, &quot;X&quot;),
+(X,&quot;X&quot;, &quot;X&quot;);
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>nombre_tabla</strong> --&gt; es el nombre de una de las tablas creadas</li>
+<li><strong>nombre_columna</strong> --&gt; es el nombre de la/s columna/s en las que añadiremos información</li>
+<li><strong>X</strong> --&gt; es la información que especificaremos<ul>
+<li>habrá tantas <code>X</code> como columnas haya</li>
+<li>los numeros se especificarán sin comillas</li>
+<li>las palabras se especificarán con comillas</li>
+</ul>
+</li>
+</ul>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Comprobar el funcionamiento</strong></li>
+</ol>
+<p>Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas </p>
+<ul>
+<li>Listar todo de una tabla en específico</li>
+</ul>
+<pre><code>select * from tabla;
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>tabla</strong> --&gt; es el nombre de la tambla que queremos ver</li>
+</ul>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<hr />
+<h2 id="configuracion-del-servicio-de-archivos">Configuración del servicio de archivos</h2>
+<ol>
+<li><strong>Asignar el mismo grupo de trabajo</strong></li>
+</ol>
+<p>Primero vamos a poenr los dos Windows 10 en el mismo grupo de trabajo, en mi caso lo he personalizado y los he puesto en <code>PF_MARINA</code>, iremos a:</p>
+<pre><code>Ajustes &gt; Sistema &gt; Acerca de &gt; Cambiar el nombre del equipo (avanzado) &gt; Cambiar
+
+Grupo de trabajo:   PF_MARINA
+</code></pre>
+<p>Nos pedirá reiniciar el equipo y ya los tendremos a los dos dentro del mismo grupo de trabajo.</p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Creación de la carpeta compartida</strong></li>
+</ol>
+<p>Vamos a crear la carpeta que vamos a compartir en uno de los dos equipos. No importa en que equipo creemos la carpeta, yo por ejemplo la crearé en el equipo <code>Windows102</code> y añadiré unos documentos dentro de esta.</p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<ol>
+<li><strong>Creación de usuarios</strong></li>
+</ol>
+<p>Para poder hacer pruebas vamos a crear tres usuarios, los cuales tendrán diferentes permisos sobre la carpeta compartida.</p>
+<ul>
+<li>User1: Usuario1</li>
+<li>User2: Usuario2</li>
+<li>User3: Usuario3</li>
+</ul>
+<p>Iremos a:</p>
+<pre><code>Administrador de equipos &gt; Usuarios y grupos locales &gt; Usuarios
+
+Clic derecho &gt; Usuario Nuevo
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
+<ol>
+<li><strong>Compartir la carpeta</strong></li>
+</ol>
+<p>Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.</p>
+<ul>
+<li>User1: Usuario1</li>
+<li>Lectura y escritura</li>
+<li>User2: Usuario2</li>
+<li>Solo lectura</li>
+<li>User3: Usuario3</li>
+<li>Denegaremos el acceso</li>
+</ul>
+<p>Haremos lo siguiente en la carpeta</p>
+<pre><code>Clic derecho &gt; Propiedades &gt; Compartir &gt; Uso compartido avanzado &gt; Compartir esta carpeta
+
+Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
+</code></pre>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
+<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
+<ol>
+<li><strong>Comprobar el funcionamiento</strong></li>
+</ol>
+<p>Para comprobar que funciona, entraremos en el equipo <code>Windows101</code> y haremos los siguiente:</p>
+<pre><code>Explorador de archivos &gt; Red &gt; \\172.16.10.60
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>\172.16.10.60</strong> --&gt; es la dirección IP del otro equipo</li>
+</ul>
               
             </div>
           </div><footer>
@@ -473,5 +619,5 @@ sudo a2ensite marina.conf
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-11 09:01:37.059502+00:00
+Build Date UTC : 2025-04-15 11:35:27.954020+00:00
 -->
