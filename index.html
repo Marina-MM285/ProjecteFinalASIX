@@ -351,31 +351,32 @@ copy run start
 <h3 id="router-mikrotik">Router Mikrotik</h3>
 <p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
 En el apartado de <code>Interfaces</code> podemos asignarles nombre.</p>
+<p><img alt="Interface list" src="interface_list.png" /></p>
 <ol>
 <li><strong>Configuración de las interficies</strong></li>
 </ol>
 <p>Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie <code>ether2</code>.</p>
 <p>Iremos al apartado <code>IP &gt; Addresses</code></p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="Addresses list" src="address_list.png" /></p>
 <ol>
 <li><strong>Configuración DHCP</strong></li>
 </ol>
 <p>Vamos al apartado <code>IP &gt; DHCP Server</code> y en el botón de <code>DHCP Setup</code> podremos configurar el pool de direcciones, DNS, red, etc.</p>
 <p>Para poder ver el pool de direcciones entraremos en el apartado <code>IP &gt; Pool</code></p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="DHCP server + pool" src="dhcp_server_pool.png" /></p>
 <ol>
 <li><strong>Reserva de direcciones IP</strong></li>
 </ol>
 <p>Para reservar direcciones IP tendremos entrar en <code>IP &gt; DHCP Server &gt; Leases</code>, aquí clicamos al <code>+</code> y especificamos la ip que queremos reservar y la MAC del equipo.</p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="DHCP leases" src="dhcp_leases.png" /></p>
 <ol>
 <li><strong>Enrutamiento entre redes</strong></li>
 </ol>
 <p>Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en <code>IP &gt; Routes</code> y agregaremos una nueva ruta especificando los siguiente:</p>
 <pre><code>Dst.Address   --&gt; 192.168.10.0/24 
-Gateway       --&gt; 192.168.122.254
+Gateway       --&gt; 192.168.122.30
 </code></pre>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="Route list" src="route_list.png" /></p>
 <ol>
 <li><strong>NAT configuration</strong></li>
 </ol>
@@ -388,8 +389,8 @@ Action        --&gt; masquerade
 <ol>
 <li><strong>Comprobar la funcionalidad</strong></li>
 </ol>
-<p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.</p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado. Y además haremos ping al VPC1.</p>
+<p><img alt="Pig del VPC2 al VPC1" src="ping_VPC1.png" /></p>
 <hr />
 <h2 id="configuracion-del-servidor-web">Configuración del servidor web</h2>
 <ol>
@@ -625,5 +626,5 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-16 07:20:56.474150+00:00
+Build Date UTC : 2025-04-16 07:41:03.596870+00:00
 -->
