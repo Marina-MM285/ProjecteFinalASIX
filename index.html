@@ -251,7 +251,7 @@ copy run start
 <p>Y ya tendriamos las dos interficies con IPs, para ver la configuración de las interficies y comprobar que lo hayamos hecho bien usaremos el siguiente comando:</p>
 <pre><code>show ip interface brief
 </code></pre>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="Show ip interface brief" src="interface_brief.png" /></p>
 <ol>
 <li><strong>Configuración DHCP</strong></li>
 </ol>
@@ -325,8 +325,7 @@ dns-server 8.8.8.8
 exit
 copy run start
 </code></pre>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em>
-<em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="Show ip dhcp binding" src="dhcp_binding.png" /></p>
 <ol>
 <li><strong>Enrutamiento entre redes</strong></li>
 </ol>
@@ -340,13 +339,14 @@ copy run start
 <p>Le estamos indicando al router que el tráfico que vaya a la red <code>172.16.10.0/24</code> debe entrar por la interfaz <code>192.168.122.212</code> (que es la interfaz del router mikrotik).</p>
 <pre><code>show ip route
 </code></pre>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="Show ip route" src="ip_route.png" /></p>
 <ol>
 <li><strong>Comprobar la funcionalidad</strong></li>
 </ol>
 <p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
 <p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado. Además podrá hacerle ping al VPC2 sin problemas.</p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
+<p><img alt="DHCP del VPC1" src="vpc1_dhcp.png" /></p>
+<p><img alt="Ping al VPC2" src="ping_vpc2.png" /></p>
 <hr />
 <h3 id="router-mikrotik">Router Mikrotik</h3>
 <p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
@@ -551,12 +551,18 @@ Clic derecho &gt; Usuario Nuevo
 </ol>
 <p>Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.</p>
 <ul>
-<li>User1: Usuario1</li>
+<li>User1: Usuario1<ul>
 <li>Lectura y escritura</li>
-<li>User2: Usuario2</li>
+</ul>
+</li>
+<li>User2: Usuario2<ul>
 <li>Solo lectura</li>
-<li>User3: Usuario3</li>
+</ul>
+</li>
+<li>User3: Usuario3<ul>
 <li>Denegaremos el acceso</li>
+</ul>
+</li>
 </ul>
 <p>Haremos lo siguiente en la carpeta</p>
 <pre><code>Clic derecho &gt; Propiedades &gt; Compartir &gt; Uso compartido avanzado &gt; Compartir esta carpeta
@@ -574,7 +580,7 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 </code></pre>
 <p>Donde:</p>
 <ul>
-<li><strong>\172.16.10.60</strong> --&gt; es la dirección IP del otro equipo</li>
+<li><strong>\ \172.16.10.60</strong> --&gt; es la dirección IP del otro equipo</li>
 </ul>
               
             </div>
@@ -619,5 +625,5 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-15 11:35:27.954020+00:00
+Build Date UTC : 2025-04-16 07:20:56.474150+00:00
 -->
