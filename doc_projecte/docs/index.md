@@ -316,6 +316,7 @@ Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango
 Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
 En el apartado de `Interfaces` podemos asignarles nombre.
 
+![Interface list](interface_list.png)
 
 
 1. **Configuración de las interficies**
@@ -324,33 +325,34 @@ Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no 
 
 Iremos al apartado `IP > Addresses`
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Addresses list](address_list.png)
 
-2. **Configuración DHCP**
+
+1. **Configuración DHCP**
 
 Vamos al apartado `IP > DHCP Server` y en el botón de `DHCP Setup` podremos configurar el pool de direcciones, DNS, red, etc.
 
 Para poder ver el pool de direcciones entraremos en el apartado `IP > Pool`
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![DHCP server + pool](dhcp_server_pool.png)
 
 
 3. **Reserva de direcciones IP**
 
 Para reservar direcciones IP tendremos entrar en `IP > DHCP Server > Leases`, aquí clicamos al `+` y especificamos la ip que queremos reservar y la MAC del equipo.
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![DHCP leases](dhcp_leases.png)
 
 
-4. **Enrutamiento entre redes**
+1. **Enrutamiento entre redes**
 
 Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en `IP > Routes` y agregaremos una nueva ruta especificando los siguiente:
 
 ```
 Dst.Address   --> 192.168.10.0/24 
-Gateway       --> 192.168.122.254
+Gateway       --> 192.168.122.30
 ```
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Route list](route_list.png)
 
 
 
@@ -368,9 +370,9 @@ Action        --> masquerade
 
 6. **Comprobar la funcionalidad**
 
-Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado.
+Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado. Y además haremos ping al VPC1.
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Pig del VPC2 al VPC1](ping_VPC1.png)
 
 
 
