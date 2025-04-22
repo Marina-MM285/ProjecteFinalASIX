@@ -64,18 +64,52 @@ Tendremos que instalar las siguientes dependencias:
 sudo apt install apache2 mariadb-server mariadb-client php
 ```
 
-1. **Configuración de mariaDB**
+
+1. **Configuracion de seguridad de MySQL**
+
+Para añadir seguridad a las base de datos, al acceso a mysql, etc. Vamos a ejecutar el siguiente comando donde podremos añadir una contraseña al usuario root y nos preguntará si hace una serie de cosas como quitar los usuarios anónimos, quitar el acceso a las base de datos de prueba y actualizar las tablas.
+
+```
+sudo mysql_secure_installation
+
+Remove anonymous users? → y (yes)
+Disallow root login remotely? → n (no)
+Remove test database and access to it? → y (yes)
+Reload privilege tables now? → y (yes)
+```
+
+*Nos preguntará también si queremos cambiar la contraseña de `root@localhost`, en mi caso yo le he puesto `root`. La podremos cambiar una vez entremos en mysql*
+
+
+2. **Configuración de mariaDB**
 
 Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración
 
 Buscaremos la linea de `bind-address` y le pondremos `0.0.0.0`
+
 ```
 sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 
 bind-address: 0.0.0.0
 ```
 
-3. **Creación de la base de datos y el usuario**
+![Bind del pandora](bind_pandora.png)
+
+
+Ahora entraremos en mysql y crearemos, si no existe, el usuario root y le daremos permisos para que pueda hacerlo todo.
+
+```
+sudo mysql
+
+create user ‘root’@’%’ identified with mysql_native_password by ‘Root_pf1’;
+grant all on *.* to 'root'@'%';
+flush privileges;
+```
+
+![Root de pandora](root_pandora.png)
+
+
+1. **Creación de la base de datos y el usuario**
 
 Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cliente
 
@@ -83,15 +117,18 @@ Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cl
 sudo mysql -u root -p
 
 CREATE DATABASE pandora;
-CREATE USER 'pandora'@'%' IDENTIFIED BY 'tu_password_segura';
+CREATE USER 'pandora'@'%' IDENTIFIED BY 'Pandora_fms1';
 GRANT ALL PRIVILEGES ON pandora.* TO 'pandora'@'%';
 FLUSH PRIVILEGES;
 EXIT;
 ```
 
-4. **Descarga e instalación de Pandora FMS**
+![Database de pandora](databse_pandora.png)
 
-Para ello he clonado el repositorio que github de pandora y dado permisos a este
+
+1. **Descarga e instalación de Pandora FMS**
+
+Clonaremos el repositorio de github de pandora y damos permisos a este
 
 ```
 git clone https://github.com/pandorafms/pandorafms.git
@@ -101,7 +138,9 @@ sudo chown -R www-data:www-data /var/www/html/pandora_console
 sudo chmod -R 755 /var/www/html/pandora_console
 ```
 
-5. **Configuración de Apache**
+![Git clone, move y permisos](git_permisos.png)
+
+1. **Configuración de Apache**
 
 Para ello creamos y editamos el archivo de configuración y lo habilitamos
 
@@ -109,12 +148,17 @@ Para ello creamos y editamos el archivo de configuración y lo habilitamos
 sudo cp 000-default.conf pandora.conf
 sudo nano pandora.conf
 
-sudo a2ensite pandira.conf
+sudo a2ensite pandora.conf
 sudo systemctl reload apache2
 sudo systemctl restart apache2
 sudo systemctl status apache2
 ```
-6. **Finalizar instalacion en el navegador**
+
+![Pandora.conf](pandora.conf.png)
+
+
+
+1. **Finalizar instalacion en el navegador**
 
 Una vez hecha la instalación y configuración de apache, podremos acceder a través de un navegador buscando lo siguiente:
 
@@ -398,7 +442,7 @@ cd marina
 sudo nano index.html
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![index.html](index.html.png)
 
 
 3. **Creación del archivo de configuración**
@@ -411,7 +455,9 @@ sudo cp 000-default.conf marina.conf
 sudo nano marina.conf
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![sites available](sites_available.png)
+
+![nano marina.conf](marina.conf.png)
 
 
 Una vez creado y editado el archivo de configuración, habilitamos la pàgina web
@@ -421,7 +467,7 @@ cd /etc/apache2/sites-available
 sudo a2ensite marina.conf
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![sites enable](sites_enable.png)
 
 
 Antes de poder acceder a ella por el nombre que le hemos dado, en este caso `www.marina.com` debemos hacer al equipo que la propia máquina pueda resolver el nombre, esto lo especificaremos en `/etc/hosts`
@@ -438,7 +484,104 @@ Donde:
   - **www.marina.com** --> el nombre que buscaremos en el navegador
 
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![/etc/hosts](etc_hosts.png)
+
+
+1. **Comprobar el funcionamiento**
+Ahora que ya está configurado vamos a entrar en el navegador y a buscar nuesra página web
+
+![Marina's web](web_marina.png)
+
+
+### Configuración Auth Digest
+
+1. **Creación del index y habilitar el modulo**
+
+Primero crearemos una carpeta llamada `digest` dentro de la carpeta que teniamos anterirmente creada. Dentro de esta crearemos el `index.html` y lo editaremos.
+
+
+```
+sudo mkdir digest
+sudo nano index.html
+```
+
+También habilitaremos el modulo que se necesita para poder configurar el auth digest.
+Y seguidamente reiniciaremos el servidcio de apache.
+
+```
+sudo a2enmod auth_digest
+```
+
+![Carpeta digest más modulo](mkdir_digest.png)
+
+
+2. **Creación del archivo de contraseñas**
+
+Vamos a crear el archivo donde pondremos las contraseñas de auth digest.
+
+```
+sudo mkdir /etc/apache/digestpasswd
+cd /etc/apache2/digestpasswd 
+sudo touch passdigest
+```
+
+Una vez creado vamos a usar el siguiente comando para añadir el usuario `proyecto` con contraseña `final`.
+
+```
+cd /etc/apache2/digestpasswd
+
+htdigest -c  access proyecto
+```
+
+![htdigest del usuario proyecto](htdigest_proyecto.png)
+
+
+1. **Archivo de configuración**
+
+En el archivo de configuración (el que tenemos ya creado y habilitado), tendremos que añadir las siguientes lineas
+
+```
+<Directory "/var/www/html/marina/digest">
+    AuthType Digest
+    AuthName "access"
+    AuthDigestProvider file
+    AuthFile "/etc/apache2/digestpasswd/passdigest"
+    Require valid-user
+</Directory>
+```
+
+![Archivo de configuracion digest](digest_conf.png)
+
+
+
+1. **Comprobar el funcionamiento**
+
+Entraremos en el navegador, buscaremos la pagina web pero con una barra y el nombre de la carpeta que hemos creado:
+
+```
+http://www.marina.com/digest
+```
+
+![Pagina web del digest](web_digest.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -------------------------------------------------------------------------------------
@@ -456,7 +599,7 @@ sudo apt install mysql-server
 
 Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de `bind-address` y la cambiamos la dirección IP a `0.0.0.0`
 ```
-sudo nano /mysql/mysql.conf.d/mysqld.conf
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 
 bind-address  = 0.0.0.0
 ```
@@ -475,7 +618,7 @@ CREATE DATABASE IF NOT EXISTS proyecto_final;
 USE proyecto_final;
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Base de datos creada](mysql_bd.png)
 
 
 ```
@@ -495,12 +638,11 @@ Donde:
     - no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.
 
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Creacion de una tabla](mysql_bd.png)
 
 
 
-
-4. **Inserción de la información**
+1. **Inserción de la información**
 
 Una vez que tengamos las tablas creadas podremos poner la información en estas.
 
@@ -520,13 +662,8 @@ Donde:
     - las palabras se especificarán con comillas
 
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
 
-
-
-
-
-5. **Comprobar el funcionamiento**
+1. **Comprobar el funcionamiento**
 
 Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas 
 
@@ -540,8 +677,7 @@ Donde:
 
 - **tabla** --> es el nombre de la tambla que queremos ver
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
-
+![Select * from](select_table.png)
 
 
 -------------------------------------------------------------------------------------
