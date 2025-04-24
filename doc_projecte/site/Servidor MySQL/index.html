@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Index - Marina's Final Project</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Index";
+        var mkdocs_page_input_path = "Servidor MySQL/index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Marina's Final Project
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Routers</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Routers/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servicio de archivos</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servicio%20de%20archivos/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor MySQL</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Index</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor Web</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servidor%20Web/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Ubuntu Server</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Ubuntu%20Server/">Index</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Marina's Final Project</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Servidor MySQL</li>
+      <li class="breadcrumb-item active">Index</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="configuracion-del-servidor-mysql">Configuración del servidor MySQL</h2>
+<ol>
+<li><strong>Entidad-Relación de la base de datos</strong></li>
+</ol>
+<p><img alt="Entidad-Relación" src="E-R_PF_Marina%20Mi%C3%B1ana.drawio.png" /></p>
+<ol>
+<li><strong>Instalación de mysql</strong></li>
+</ol>
+<pre><code>sudo apt update
+sudo apt install mysql-server
+</code></pre>
+<ol>
+<li><strong>Archivo de configuración</strong></li>
+</ol>
+<p>Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de <code>bind-address</code> y la cambiamos la dirección IP a <code>0.0.0.0</code></p>
+<pre><code>sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+bind-address  = 0.0.0.0
+</code></pre>
+<p><img alt="bind-address" src="bind_address.png" /></p>
+<ol>
+<li><strong>Creación de la base de datos</strong></li>
+</ol>
+<p>Vamos a entrar en mysql a través de la terminal, crearemos la base de datos y las tablas.</p>
+<pre><code>sudo mysql
+
+CREATE DATABASE IF NOT EXISTS proyecto_final;
+USE proyecto_final;
+</code></pre>
+<p><img alt="Base de datos creada" src="mysql_bd.png" /></p>
+<pre><code>CREATE TABLE nombre_tabla (
+    columnas tipo esp,
+    columnas tipo esp
+);
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>nombre_tabla</strong> --&gt; es el nombre que le asignaremos a la tabla que crearemos</li>
+<li><strong>columnas</strong> --&gt; el nombre que tendrá la columna</li>
+<li><strong>tipo</strong> --&gt; el tipo de información que habrá<ul>
+<li>Ejemplo: INT, Varchar, etc</li>
+</ul>
+</li>
+<li><strong>esp</strong> --&gt; si es primary key, not null, auto_increment, etc<ul>
+<li>no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Creacion de una tabla" src="ej_create_table.png" /></p>
+<p><img alt="Show tables" src="show_tables_mysql.png" /></p>
+<ol>
+<li><strong>Inserción de la información</strong></li>
+</ol>
+<p>Una vez que tengamos las tablas creadas podremos poner la información en estas.</p>
+<pre><code>INSERT INTO nombre_tabla (nombre_columna, nombre_columna, nombre_columna) VALUES
+(X,&quot;X&quot;, &quot;X&quot;),
+(X,&quot;X&quot;, &quot;X&quot;);
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>nombre_tabla</strong> --&gt; es el nombre de una de las tablas creadas</li>
+<li><strong>nombre_columna</strong> --&gt; es el nombre de la/s columna/s en las que añadiremos información</li>
+<li>
+<p><strong>X</strong> --&gt; es la información que especificaremos</p>
+<ul>
+<li>habrá tantas <code>X</code> como columnas haya</li>
+<li>los numeros se especificarán sin comillas</li>
+<li>las palabras se especificarán con comillas</li>
+</ul>
+</li>
+<li>
+<p><strong>Comprobar el funcionamiento</strong></p>
+</li>
+</ul>
+<p>Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas </p>
+<ul>
+<li>Listar todo de una tabla en específico</li>
+</ul>
+<pre><code>select * from tabla;
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>tabla</strong> --&gt; es el nombre de la tabla que queremos ver</li>
+</ul>
+<p><img alt="Select * from" src="select_table.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Servicio%20de%20archivos/" class="btn btn-neutral float-left" title="Index"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Servidor%20Web/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Servicio%20de%20archivos/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Servidor%20Web/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
