@@ -181,15 +181,7 @@ Y nos preguntará acerca de los datos de la base de datos.
 Cuando encuentre la base de datos se instalará
 
 ![BD encontrada](BD_encontrada.png)
-![Pandora instalado](FMS_instalado.png)
 
-Al volver al servidor y entrar en la carpeta de `pandora_console` veremos el archivo `install.php` que se ha creado con la instalación, este habrá que eliminarlo
-
-```
-cd /var/www/html/pandora_console
-sudo rm install.php
-```
-![eliminar install.php](install.php.png)
 
 
 1. **Instalación y configuración del serrvidor de Pandora FMS**
@@ -530,7 +522,7 @@ Una vez creado vamos a usar el siguiente comando para añadir el usuario `proyec
 ```
 cd /etc/apache2/digestpasswd
 
-htdigest -c  access proyecto
+sudo htdigest -c  access proyecto
 ```
 
 ![htdigest del usuario proyecto](htdigest_proyecto.png)
@@ -563,23 +555,6 @@ http://www.marina.com/digest
 ```
 
 ![Pagina web del digest](web_digest.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -752,39 +727,65 @@ Clic derecho > Propiedades > Compartir > Uso compartido avanzado > Compartir est
 Clic derecho > Propiedades > Seguridad > Editar > Agregar
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+1. **Configuración del escritorio remoto**
+
+En el equipo `Windows102` entraremos en `Ajustes > Sistema > Acerca de > Configuración Avanzada del sistema >  Acceso Remoto`, activaremos el acceso remoto y especificaremos que solo podremos acceder si nos logeamos desde los usuario `user1`, `user2` y `user3`
+
+![Escritorio remoto activado](escritorio_remoto.png)
+
 
 
 1. **Comprobar el funcionamiento**
 
-Para comprobar que funciona, entraremos en el equipo `Windows101` y haremos los siguiente:
+Vamos a comprobar que funciona de diferentes formas, usando el escritorio remoto desde el equipo de `Windows101` nos logearemos con los 3 usuarios, desde el equipo `Windows101` intentaremos acceder a la carpeta y desde el propio equipo `Windoiws102` nos logearemos con los 3 usuarios.
+
 
 ```
 Explorador de archivos > Red > \\172.16.10.60
 ```
 Donde:
 
-  - **\ \172.16.10.60** --> es la dirección IP del otro equipo
+  - **\ \172.16.10.60** --> es la dirección IP del equipo donde se encuentra a carpeta compartida
+
+
+**Desde el equipo de Windows102**
+
+![RW User1](user1.png)
+
+![R User2](user2.png)
+
+![D User3](user3.png)
 
 
 
+**Desde el escritorio remoto del equipo de Windows101**
+
+*User1*
+
+![Credenciales del user1 en escritorio remoto](credenciales_user1.png)
+
+![Escritorio remoto del user1](user1_ER.png)
 
 
+*User2*
+
+![Credenciales del user2 en escritorio remoto](credenciales_user2.png)
+
+![Escritorio remoto del user2](user2_ER.png)
 
 
+*User3*
+
+![Credenciales del user3 en escritorio remoto](credenciales_user3.png)
+
+![Escritorio remoto del user3](user3_ER.png)
 
 
+**Desde el equipo de Windows101**
 
 
-
-
-
-
-
-
+![Desde Windows101](W101.png)
 
 
