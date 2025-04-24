@@ -579,7 +579,7 @@ sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 bind-address  = 0.0.0.0
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Bind 0.0.0.0](bind_mysql_server.png)
 
 
 3. **Creación de la base de datos**
@@ -672,23 +672,22 @@ Grupo de trabajo:   PF_MARINA
 
 Nos pedirá reiniciar el equipo y ya los tendremos a los dos dentro del mismo grupo de trabajo.
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Grupo de trabajo del equipo Windows101](grupo_trabajo_w101.png)
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
-
-
+![Grupo de trabajo del equipo Windows102](grupo_trabajo_w102.png)
 
 
-2. **Creación de la carpeta compartida**
+
+1. **Creación de la carpeta compartida**
 
 Vamos a crear la carpeta que vamos a compartir en uno de los dos equipos. No importa en que equipo creemos la carpeta, yo por ejemplo la crearé en el equipo `Windows102` y añadiré unos documentos dentro de esta.
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![Elementos de la carpeta compartida](sharefolder_elementos.png)
 
 
 
 
-3. **Creación de usuarios**
+1. **Creación de usuarios**
 
 Para poder hacer pruebas vamos a crear tres usuarios, los cuales tendrán diferentes permisos sobre la carpeta compartida.
 
@@ -704,11 +703,11 @@ Administrador de equipos > Usuarios y grupos locales > Usuarios
 Clic derecho > Usuario Nuevo
 ```
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO* 
+![Crear usuario nuevo](usuario_nuevo.png) 
 
 
 
-4. **Compartir la carpeta**
+1. **Compartir la carpeta**
 
 Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.
 
@@ -726,6 +725,13 @@ Clic derecho > Propiedades > Compartir > Uso compartido avanzado > Compartir est
 
 Clic derecho > Propiedades > Seguridad > Editar > Agregar
 ```
+![Compartir la carpeta](compartir_sharefolder.png)
+
+![Permisos del user1](user1_permisos.png)
+
+![Permisos del user2](user2_permisos.png)
+
+![Permisos del user3](user3_permisos.png)
 
 
 
@@ -752,9 +758,15 @@ Donde:
 
 **Desde el equipo de Windows102**
 
+*User1*
+
 ![RW User1](user1.png)
 
+*User2*
+
 ![R User2](user2.png)
+
+*User3*
 
 ![D User3](user3.png)
 

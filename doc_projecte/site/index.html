@@ -240,13 +240,7 @@ sudo systemctl status apache2
 <p>Y nos preguntará acerca de los datos de la base de datos.</p>
 <p><img alt="Datos de la base de datos y el servidor" src="BD_datos.png" /></p>
 <p>Cuando encuentre la base de datos se instalará</p>
-<p><img alt="BD encontrada" src="BD_encontrada.png" />
-<img alt="Pandora instalado" src="FMS_instalado.png" /></p>
-<p>Al volver al servidor y entrar en la carpeta de <code>pandora_console</code> veremos el archivo <code>install.php</code> que se ha creado con la instalación, este habrá que eliminarlo</p>
-<pre><code>cd /var/www/html/pandora_console
-sudo rm install.php
-</code></pre>
-<p><img alt="eliminar install.php" src="install.php.png" /></p>
+<p><img alt="BD encontrada" src="BD_encontrada.png" /></p>
 <ol>
 <li><strong>Instalación y configuración del serrvidor de Pandora FMS</strong></li>
 </ol>
@@ -492,7 +486,7 @@ sudo touch passdigest
 <p>Una vez creado vamos a usar el siguiente comando para añadir el usuario <code>proyecto</code> con contraseña <code>final</code>.</p>
 <pre><code>cd /etc/apache2/digestpasswd
 
-htdigest -c  access proyecto
+sudo htdigest -c  access proyecto
 </code></pre>
 <p><img alt="htdigest del usuario proyecto" src="htdigest_proyecto.png" /></p>
 <ol>
@@ -652,19 +646,37 @@ Clic derecho &gt; Usuario Nuevo
 
 Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 </code></pre>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
-<p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em> </p>
+<ol>
+<li><strong>Configuración del escritorio remoto</strong></li>
+</ol>
+<p>En el equipo <code>Windows102</code> entraremos en <code>Ajustes &gt; Sistema &gt; Acerca de &gt; Configuración Avanzada del sistema &gt;  Acceso Remoto</code>, activaremos el acceso remoto y especificaremos que solo podremos acceder si nos logeamos desde los usuario <code>user1</code>, <code>user2</code> y <code>user3</code></p>
+<p><img alt="Escritorio remoto activado" src="escritorio_remoto.png" /></p>
 <ol>
 <li><strong>Comprobar el funcionamiento</strong></li>
 </ol>
-<p>Para comprobar que funciona, entraremos en el equipo <code>Windows101</code> y haremos los siguiente:</p>
+<p>Vamos a comprobar que funciona de diferentes formas, usando el escritorio remoto desde el equipo de <code>Windows101</code> nos logearemos con los 3 usuarios, desde el equipo <code>Windows101</code> intentaremos acceder a la carpeta y desde el propio equipo <code>Windoiws102</code> nos logearemos con los 3 usuarios.</p>
 <pre><code>Explorador de archivos &gt; Red &gt; \\172.16.10.60
 </code></pre>
 <p>Donde:</p>
 <ul>
-<li><strong>\ \172.16.10.60</strong> --&gt; es la dirección IP del otro equipo</li>
+<li><strong>\ \172.16.10.60</strong> --&gt; es la dirección IP del equipo donde se encuentra a carpeta compartida</li>
 </ul>
+<p><strong>Desde el equipo de Windows102</strong></p>
+<p><img alt="RW User1" src="user1.png" /></p>
+<p><img alt="R User2" src="user2.png" /></p>
+<p><img alt="D User3" src="user3.png" /></p>
+<p><strong>Desde el escritorio remoto del equipo de Windows101</strong></p>
+<p><em>User1</em></p>
+<p><img alt="Credenciales del user1 en escritorio remoto" src="credenciales_user1.png" /></p>
+<p><img alt="Escritorio remoto del user1" src="user1_ER.png" /></p>
+<p><em>User2</em></p>
+<p><img alt="Credenciales del user2 en escritorio remoto" src="credenciales_user2.png" /></p>
+<p><img alt="Escritorio remoto del user2" src="user2_ER.png" /></p>
+<p><em>User3</em></p>
+<p><img alt="Credenciales del user3 en escritorio remoto" src="credenciales_user3.png" /></p>
+<p><img alt="Escritorio remoto del user3" src="user3_ER.png" /></p>
+<p><strong>Desde el equipo de Windows101</strong></p>
+<p><img alt="Desde Windows101" src="W101.png" /></p>
               
             </div>
           </div><footer>
@@ -708,5 +720,5 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-22 11:51:34.676991+00:00
+Build Date UTC : 2025-04-24 10:12:37.946456+00:00
 -->
