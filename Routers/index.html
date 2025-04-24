@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Index - Marina's Final Project</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Index";
+        var mkdocs_page_input_path = "Routers/index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Marina's Final Project
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Routers</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Index</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#router-cisco">Router Cisco</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#router-mikrotik">Router Mikrotik</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servicio de archivos</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servicio%20de%20archivos/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor MySQL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servidor%20MySQL/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor Web</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servidor%20Web/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Ubuntu Server</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Ubuntu%20Server/">Index</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Marina's Final Project</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Routers</li>
+      <li class="breadcrumb-item active">Index</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="configuracion-de-los-routers">Configuración de los routers</h2>
+<h3 id="router-cisco">Router Cisco</h3>
+<ol>
+<li><strong>Configuración de las interficies</strong></li>
+</ol>
+<p>Primero configuraremos la interficie <code>g0/0</code> para que tenga IP por dhcp</p>
+<pre><code>config t
+interface g0/0
+no shutdown
+ip address dhcp
+ip nat outside
+exit (X2)
+write
+copy run start
+</code></pre>
+<p>En la interficie <code>g1/0</code> la configuraremos con una IP estática</p>
+<pre><code>config t
+interface g0/0
+no shutdown
+ip address 192.168.10.1 255.255.255.0
+ip nat inside
+exit (X2)
+write
+copy run start
+</code></pre>
+<p>Y ya tendriamos las dos interficies con IPs, para ver la configuración de las interficies y comprobar que lo hayamos hecho bien usaremos el siguiente comando:</p>
+<pre><code>show ip interface brief
+</code></pre>
+<p><img alt="Show ip interface brief" src="interface_brief.png" /></p>
+<ol>
+<li><strong>Configuración DHCP</strong></li>
+</ol>
+<p>Vamos a crear un "POOL" ,que es el conjunto de direcciones que vamos a usar para asignarselas a los VPCs, y a configurarlo para que de las direcciones.</p>
+<pre><code>config t
+ip dhcp pool POOL1
+network 192.168.10.0 255.255.255.0
+dns-server 8.8.8.8
+default-router 192.168.10.1
+exit
+ip dhcp expluded-address 192.168.10.1 192.168.10.9
+ip dhcp expluded-address 192.168.10.31 192.168.10.254
+write
+copy run start
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>network</strong> --&gt; es la direcion de red en la que vas a hacer el pool</li>
+<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
+<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
+</ul>
+</li>
+<li><strong>default-router</strong> --&gt; es la direccion por la cual saldrán<ul>
+<li>en mi caso es la direccion <code>192.168.10.1</code></li>
+</ul>
+</li>
+<li>
+<p><strong>ip dhcp excluded-address</strong> --&gt; son las direcciones ip que <strong>NO</strong> vamos a asignar a los equipos</p>
+<ul>
+<li>Yo queria asignar de la <code>192.168.10.10</code> a la <code>192.168.10.30</code> por lo que he excluido todas las demás</li>
+</ul>
+</li>
+<li>
+<p><strong>Reserva de direcciones IP</strong></p>
+</li>
+</ul>
+<p>Para reservar direcciones IP tendremos que crear un pool y decirle cual es la ip que queremos asignar al igual que la dirección MAC del equipo al cual le asignaremos dicha dirección reservada.</p>
+<pre><code>config t
+ip dhcp pool UbD
+host 192.168.10.50 255.255.255.0
+client-identifier 010c.bf1c.8700.00
+default-router 192.168.10.1
+dns-server 8.8.8.8
+exit
+copy run start
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>UbD</strong> --&gt; es el nombre que le asignamos al pool</li>
+<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
+<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
+</ul>
+</li>
+<li><strong>default-router</strong> --&gt; es la dirección por la cual saldrán<ul>
+<li>en mi caso es la <code>192.168.10.1</code></li>
+</ul>
+</li>
+<li><strong>host</strong> --&gt; es la dirección que queremos reservar para un equipo<ul>
+<li>Yo queria asignar de la <code>192.168.10.50</code> y la <code>192.168.10.60</code></li>
+</ul>
+</li>
+<li><strong>client-identifier</strong> --&gt; es la dirección MAC con un <code>01</code> delante de esta y agrupada en 4, menos los 2 ultimos.</li>
+</ul>
+<p>Haremos los mismos pasos para todos los equipos que queramos reservales direcciones. En mi caso yo lo queria para el Ubuntu Desktop y para el Windows 10.</p>
+<pre><code>config t
+ip dhcp pool W10
+host 192.168.10.60 255.255.255.0
+client-identifier 010c.800f.2f00.00
+default-router 192.168.10.1
+dns-server 8.8.8.8
+exit
+copy run start
+</code></pre>
+<p><img alt="Show ip dhcp binding" src="dhcp_binding.png" /></p>
+<ol>
+<li><strong>Enrutamiento entre redes</strong></li>
+</ol>
+<p>Vamos a indicarle al router cómo llegar a la red del otro router, vamos a ejecutar los siguientes comandos:</p>
+<pre><code>config t
+ip route 172.16.10.0 255.255.255.0 192.168.122.212
+exit
+write
+copy run start
+</code></pre>
+<p>Le estamos indicando al router que el tráfico que vaya a la red <code>172.16.10.0/24</code> debe entrar por la interfaz <code>192.168.122.212</code> (que es la interfaz del router mikrotik).</p>
+<pre><code>show ip route
+</code></pre>
+<p><img alt="Show ip route" src="ip_route.png" /></p>
+<ol>
+<li><strong>Comprobar la funcionalidad</strong></li>
+</ol>
+<p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
+<p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado. Además podrá hacerle ping al VPC2 sin problemas.</p>
+<p><img alt="DHCP del VPC1" src="vpc1_dhcp.png" /></p>
+<p><img alt="Ping al VPC2" src="ping_vpc2.png" /></p>
+<hr />
+<h3 id="router-mikrotik">Router Mikrotik</h3>
+<p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
+En el apartado de <code>Interfaces</code> podemos asignarles nombre.</p>
+<p><img alt="Interface list" src="interface_list.png" /></p>
+<ol>
+<li><strong>Configuración de las interficies</strong></li>
+</ol>
+<p>Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie <code>ether2</code>.</p>
+<p>Iremos al apartado <code>IP &gt; Addresses</code></p>
+<p><img alt="Addresses list" src="address_list.png" /></p>
+<ol>
+<li><strong>Configuración DHCP</strong></li>
+</ol>
+<p>Vamos al apartado <code>IP &gt; DHCP Server</code> y en el botón de <code>DHCP Setup</code> podremos configurar el pool de direcciones, DNS, red, etc.</p>
+<p>Para poder ver el pool de direcciones entraremos en el apartado <code>IP &gt; Pool</code></p>
+<p><img alt="DHCP server + pool" src="dhcp_server_pool.png" /></p>
+<ol>
+<li><strong>Reserva de direcciones IP</strong></li>
+</ol>
+<p>Para reservar direcciones IP tendremos entrar en <code>IP &gt; DHCP Server &gt; Leases</code>, aquí clicamos al <code>+</code> y especificamos la ip que queremos reservar y la MAC del equipo.</p>
+<p><img alt="DHCP leases" src="dhcp_leases.png" /></p>
+<ol>
+<li><strong>Enrutamiento entre redes</strong></li>
+</ol>
+<p>Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en <code>IP &gt; Routes</code> y agregaremos una nueva ruta especificando los siguiente:</p>
+<pre><code>Dst.Address   --&gt; 192.168.10.0/24 
+Gateway       --&gt; 192.168.122.30
+</code></pre>
+<p><img alt="Route list" src="route_list.png" /></p>
+<ol>
+<li><strong>NAT configuration</strong></li>
+</ol>
+<p>Para poder salir a internet necesitamos configurar el nat, para ello iremos al apartado <code>IP &gt; Firewall &gt; NAT</code>, ahí clicaremos en el <code>+</code> y especificaremos lo siguiente:</p>
+<pre><code>chain         --&gt; srcnat
+Out.Interface --&gt; ether1_dhcp (que es la interfaz por la que podemos salir a internet)
+Action        --&gt; masquerade
+</code></pre>
+<p><img alt="NAT mikrotik" src="nat_mk.png" /></p>
+<ol>
+<li><strong>Comprobar la funcionalidad</strong></li>
+</ol>
+<p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado. Y además haremos ping al VPC1.</p>
+<p><img alt="VPC2 con ip por dhcp" src="dhcp_VPC2.png" /></p>
+<p><img alt="Ping del VPC2 al VPC1" src="ping_VPC1.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Servicio%20de%20archivos/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Servicio%20de%20archivos/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

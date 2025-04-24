@@ -48,34 +48,35 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-ubuntu-server">Configuración del Ubuntu Server</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#configuracion-del-netplan">Configuración del netplan</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#configuracion-de-pandora-fms">Configuración de Pandora FMS</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-de-los-routers">Configuración de los routers</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#router-cisco">Router Cisco</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#router-mikrotik">Router Mikrotik</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-web">Configuración del servidor web</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#configuracion-auth-digest">Configuración Auth Digest</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servidor-mysql">Configuración del servidor MySQL</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-servicio-de-archivos">Configuración del servicio de archivos</a>
+    <li class="toctree-l2"><a class="reference internal" href="#monitorizacion-desde-pandora-fms">Monitorización desde Pandora FMS</a>
     </li>
     </ul>
                 </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Routers</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Routers/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servicio de archivos</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Servicio%20de%20archivos/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor MySQL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Servidor%20MySQL/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor Web</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Servidor%20Web/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Ubuntu Server</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="Ubuntu%20Server/">Index</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -143,550 +144,13 @@
 </ul>
 <p><em>FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</em></p>
 <hr />
-<h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
-<h3 id="configuracion-del-netplan"><strong>Configuración del netplan</strong></h3>
-<pre><code>sudo nano /etc/netplan/50-cloud-init.yaml
-sudo netplan apply
-</code></pre>
-<h3 id="configuracion-de-pandora-fms"><strong>Configuración de Pandora FMS</strong></h3>
-<ol>
-<li><strong>Instalación de depenencias:</strong></li>
-</ol>
-<p>Tendremos que instalar las siguientes dependencias:</p>
-<ul>
-<li>apache2</li>
-<li>mariaDB</li>
-<li>php</li>
-</ul>
-<pre><code>sudo apt install apache2 mariadb-server mariadb-client php
-</code></pre>
-<ol>
-<li><strong>Configuracion de seguridad de MySQL</strong></li>
-</ol>
-<p>Para añadir seguridad a las base de datos, al acceso a mysql, etc. Vamos a ejecutar el siguiente comando donde podremos añadir una contraseña al usuario root y nos preguntará si hace una serie de cosas como quitar los usuarios anónimos, quitar el acceso a las base de datos de prueba y actualizar las tablas.</p>
-<pre><code>sudo mysql_secure_installation
-
-Remove anonymous users? → y (yes)
-Disallow root login remotely? → n (no)
-Remove test database and access to it? → y (yes)
-Reload privilege tables now? → y (yes)
-</code></pre>
-<p><em>Nos preguntará también si queremos cambiar la contraseña de <code>root@localhost</code>, en mi caso yo le he puesto <code>root</code>. La podremos cambiar una vez entremos en mysql</em></p>
-<ol>
-<li><strong>Configuración de mariaDB</strong></li>
-</ol>
-<p>Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración</p>
-<p>Buscaremos la linea de <code>bind-address</code> y le pondremos <code>0.0.0.0</code></p>
-<pre><code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
-
-bind-address: 0.0.0.0
-</code></pre>
-<p><img alt="Bind del pandora" src="bind_pandora.png" /></p>
-<p>Ahora entraremos en mysql y crearemos, si no existe, el usuario root y le daremos permisos para que pueda hacerlo todo.</p>
-<pre><code>sudo mysql
-
-create user ‘root’@’%’ identified with mysql_native_password by ‘Root_pf1’;
-grant all on *.* to 'root'@'%';
-flush privileges;
-</code></pre>
-<p><img alt="Root de pandora" src="root_pandora.png" /></p>
-<ol>
-<li><strong>Creación de la base de datos y el usuario</strong></li>
-</ol>
-<p>Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cliente</p>
-<pre><code>sudo mysql -u root -p
-
-CREATE DATABASE pandora;
-CREATE USER 'pandora'@'%' IDENTIFIED BY 'Pandora_fms1';
-GRANT ALL PRIVILEGES ON pandora.* TO 'pandora'@'%';
-FLUSH PRIVILEGES;
-EXIT;
-</code></pre>
-<p><img alt="Database de pandora" src="databse_pandora.png" /></p>
-<ol>
-<li><strong>Descarga e instalación de Pandora FMS</strong></li>
-</ol>
-<p>Clonaremos el repositorio de github de pandora y damos permisos a este</p>
-<pre><code>git clone https://github.com/pandorafms/pandorafms.git
-sudo mv pandorafms/pandora_console /var/www/html/pandora_console
-
-sudo chown -R www-data:www-data /var/www/html/pandora_console
-sudo chmod -R 755 /var/www/html/pandora_console
-</code></pre>
-<p><img alt="Git clone, move y permisos" src="git_permisos.png" /></p>
-<ol>
-<li><strong>Configuración de Apache</strong></li>
-</ol>
-<p>Para ello creamos y editamos el archivo de configuración y lo habilitamos</p>
-<pre><code>sudo cp 000-default.conf pandora.conf
-sudo nano pandora.conf
-
-sudo a2ensite pandora.conf
-sudo systemctl reload apache2
-sudo systemctl restart apache2
-sudo systemctl status apache2
-</code></pre>
-<p><img alt="Pandora.conf" src="pandora.conf.png" /></p>
-<ol>
-<li><strong>Finalizar instalacion en el navegador</strong></li>
-</ol>
-<p>Una vez hecha la instalación y configuración de apache, podremos acceder a través de un navegador buscando lo siguiente:</p>
-<pre><code>http://192.168.122.16/pandora_console
-</code></pre>
-<p>Teniendo en cuenta que la dirección <code>192.168.122.16</code> es la ip del servidor y <code>pandora_console</code> la carpeta que hemos movido a <code>/var/www/html</code></p>
-<p><img alt="instalacion de pandora" src="pandora_install.png" /></p>
-<p>Una vez dentro simplemente seguimos los pasos de la instalación, nos indicará si hay alguna dependencia que no esté instalada.</p>
-<p><img alt="dependencias instaladas" src="dependencias_install.png" /></p>
-<p>Y nos preguntará acerca de los datos de la base de datos.</p>
-<p><img alt="Datos de la base de datos y el servidor" src="BD_datos.png" /></p>
-<p>Cuando encuentre la base de datos se instalará</p>
-<p><img alt="BD encontrada" src="BD_encontrada.png" /></p>
-<ol>
-<li><strong>Instalación y configuración del serrvidor de Pandora FMS</strong></li>
-</ol>
-<hr />
-<h2 id="configuracion-de-los-routers">Configuración de los routers</h2>
-<h3 id="router-cisco">Router Cisco</h3>
-<ol>
-<li><strong>Configuración de las interficies</strong></li>
-</ol>
-<p>Primero configuraremos la interficie <code>g0/0</code> para que tenga IP por dhcp</p>
-<pre><code>config t
-interface g0/0
-no shutdown
-ip address dhcp
-ip nat outside
-exit (X2)
-write
-copy run start
-</code></pre>
-<p>En la interficie <code>g1/0</code> la configuraremos con una IP estática</p>
-<pre><code>config t
-interface g0/0
-no shutdown
-ip address 192.168.10.1 255.255.255.0
-ip nat inside
-exit (X2)
-write
-copy run start
-</code></pre>
-<p>Y ya tendriamos las dos interficies con IPs, para ver la configuración de las interficies y comprobar que lo hayamos hecho bien usaremos el siguiente comando:</p>
-<pre><code>show ip interface brief
-</code></pre>
-<p><img alt="Show ip interface brief" src="interface_brief.png" /></p>
-<ol>
-<li><strong>Configuración DHCP</strong></li>
-</ol>
-<p>Vamos a crear un "POOL" ,que es el conjunto de direcciones que vamos a usar para asignarselas a los VPCs, y a configurarlo para que de las direcciones.</p>
-<pre><code>config t
-ip dhcp pool POOL1
-network 192.168.10.0 255.255.255.0
-dns-server 8.8.8.8
-default-router 192.168.10.1
-exit
-ip dhcp expluded-address 192.168.10.1 192.168.10.9
-ip dhcp expluded-address 192.168.10.31 192.168.10.254
-write
-copy run start
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>network</strong> --&gt; es la direcion de red en la que vas a hacer el pool</li>
-<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
-<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
-</ul>
-</li>
-<li><strong>default-router</strong> --&gt; es la direccion por la cual saldrán<ul>
-<li>en mi caso es la direccion <code>192.168.10.1</code></li>
-</ul>
-</li>
-<li>
-<p><strong>ip dhcp excluded-address</strong> --&gt; son las direcciones ip que <strong>NO</strong> vamos a asignar a los equipos</p>
-<ul>
-<li>Yo queria asignar de la <code>192.168.10.10</code> a la <code>192.168.10.30</code> por lo que he excluido todas las demás</li>
-</ul>
-</li>
-<li>
-<p><strong>Reserva de direcciones IP</strong></p>
-</li>
-</ul>
-<p>Para reservar direcciones IP tendremos que crear un pool y decirle cual es la ip que queremos asignar al igual que la dirección MAC del equipo al cual le asignaremos dicha dirección reservada.</p>
-<pre><code>config t
-ip dhcp pool UbD
-host 192.168.10.50 255.255.255.0
-client-identifier 010c.bf1c.8700.00
-default-router 192.168.10.1
-dns-server 8.8.8.8
-exit
-copy run start
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>UbD</strong> --&gt; es el nombre que le asignamos al pool</li>
-<li><strong>dns-server</strong> --&gt; resolucion de nombres<ul>
-<li>Yo he puesto el de google, si tienes uno propio puedes ponerlo</li>
-</ul>
-</li>
-<li><strong>default-router</strong> --&gt; es la dirección por la cual saldrán<ul>
-<li>en mi caso es la <code>192.168.10.1</code></li>
-</ul>
-</li>
-<li><strong>host</strong> --&gt; es la dirección que queremos reservar para un equipo<ul>
-<li>Yo queria asignar de la <code>192.168.10.50</code> y la <code>192.168.10.60</code></li>
-</ul>
-</li>
-<li><strong>client-identifier</strong> --&gt; es la dirección MAC con un <code>01</code> delante de esta y agrupada en 4, menos los 2 ultimos.</li>
-</ul>
-<p>Haremos los mismos pasos para todos los equipos que queramos reservales direcciones. En mi caso yo lo queria para el Ubuntu Desktop y para el Windows 10.</p>
-<pre><code>config t
-ip dhcp pool W11
-host 192.168.10.60 255.255.255.0
-client-identifier 010c.800f.2f00.00
-default-router 192.168.10.1
-dns-server 8.8.8.8
-exit
-copy run start
-</code></pre>
-<p><img alt="Show ip dhcp binding" src="dhcp_binding.png" /></p>
-<ol>
-<li><strong>Enrutamiento entre redes</strong></li>
-</ol>
-<p>Vamos a indicarle al router cómo llegar a la red del otro router, vamos a ejecutar los siguientes comandos:</p>
-<pre><code>config t
-ip route 172.16.10.0 255.255.255.0 192.168.122.212
-exit
-write
-copy run start
-</code></pre>
-<p>Le estamos indicando al router que el tráfico que vaya a la red <code>172.16.10.0/24</code> debe entrar por la interfaz <code>192.168.122.212</code> (que es la interfaz del router mikrotik).</p>
-<pre><code>show ip route
-</code></pre>
-<p><img alt="Show ip route" src="ip_route.png" /></p>
-<ol>
-<li><strong>Comprobar la funcionalidad</strong></li>
-</ol>
-<p>Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.</p>
-<p>Y cuando le digamos al VPC una direccion por dhcp nos dará una dentro del rango especificado. Además podrá hacerle ping al VPC2 sin problemas.</p>
-<p><img alt="DHCP del VPC1" src="vpc1_dhcp.png" /></p>
-<p><img alt="Ping al VPC2" src="ping_vpc2.png" /></p>
-<hr />
-<h3 id="router-mikrotik">Router Mikrotik</h3>
-<p>Antes de emepzar la configuración, me gusta ponerle nombre a las interfaces, ya que asi trabajo más rápida y cómodamente.
-En el apartado de <code>Interfaces</code> podemos asignarles nombre.</p>
-<p><img alt="Interface list" src="interface_list.png" /></p>
-<ol>
-<li><strong>Configuración de las interficies</strong></li>
-</ol>
-<p>Vamos a asignarle IPs a las interficies, veremos que la IP asignada por dhcp no va ha hacer falta configurarla, por lo que solo hará falta configurar la interficie <code>ether2</code>.</p>
-<p>Iremos al apartado <code>IP &gt; Addresses</code></p>
-<p><img alt="Addresses list" src="address_list.png" /></p>
-<ol>
-<li><strong>Configuración DHCP</strong></li>
-</ol>
-<p>Vamos al apartado <code>IP &gt; DHCP Server</code> y en el botón de <code>DHCP Setup</code> podremos configurar el pool de direcciones, DNS, red, etc.</p>
-<p>Para poder ver el pool de direcciones entraremos en el apartado <code>IP &gt; Pool</code></p>
-<p><img alt="DHCP server + pool" src="dhcp_server_pool.png" /></p>
-<ol>
-<li><strong>Reserva de direcciones IP</strong></li>
-</ol>
-<p>Para reservar direcciones IP tendremos entrar en <code>IP &gt; DHCP Server &gt; Leases</code>, aquí clicamos al <code>+</code> y especificamos la ip que queremos reservar y la MAC del equipo.</p>
-<p><img alt="DHCP leases" src="dhcp_leases.png" /></p>
-<ol>
-<li><strong>Enrutamiento entre redes</strong></li>
-</ol>
-<p>Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en <code>IP &gt; Routes</code> y agregaremos una nueva ruta especificando los siguiente:</p>
-<pre><code>Dst.Address   --&gt; 192.168.10.0/24 
-Gateway       --&gt; 192.168.122.30
-</code></pre>
-<p><img alt="Route list" src="route_list.png" /></p>
-<ol>
-<li><strong>NAT configuration</strong></li>
-</ol>
-<p>Para poder salir a internet necesitamos configurar el nat, para ello iremos al apartado <code>IP &gt; Firewall &gt; NAT</code>, ahí clicaremos en el <code>+</code> y especificaremos lo siguiente:</p>
-<pre><code>chain         --&gt; srcnat
-Out.Interface --&gt; ether1_dhcp (que es la interfaz por la que podemos salir a internet)
-Action        --&gt; masquerade
-</code></pre>
-<p><img alt="NAT mikrotik" src="nat_mk.png" /></p>
-<ol>
-<li><strong>Comprobar la funcionalidad</strong></li>
-</ol>
-<p>Una vez terminada la configuración entraremos en el VPC2 y comprobaremos si nos asigna una IP por DHCP dentro del pool de direcciones que hemos especificado. Y además haremos ping al VPC1.</p>
-<p><img alt="Pig del VPC2 al VPC1" src="ping_VPC1.png" /></p>
-<hr />
-<h2 id="configuracion-del-servidor-web">Configuración del servidor web</h2>
-<ol>
-<li><strong>Instalación de apache</strong></li>
-</ol>
-<pre><code>sudo apt update
-sudo apt install apache2
-</code></pre>
-<ol>
-<li><strong>Creación del index.html</strong></li>
-</ol>
-<p>Primero crearemos una carpeta en el directorio <code>/var/www/html</code> para tener el archivo <code>index.html</code> donde editaremos a nuestro gusto la página web sin equivocarnos de índice.</p>
-<pre><code>cd /var/www/html
-sudo mkdir marina
-cd marina
-sudo nano index.html
-</code></pre>
-<p><img alt="index.html" src="index.html.png" /></p>
-<ol>
-<li><strong>Creación del archivo de configuración</strong></li>
-</ol>
-<p>Ahora crearemos y editaremos el archivo de configuración.</p>
-<pre><code>cd /etc/apache2/sites-available
-sudo cp 000-default.conf marina.conf
-sudo nano marina.conf
-</code></pre>
-<p><img alt="sites available" src="sites_available.png" /></p>
-<p><img alt="nano marina.conf" src="marina.conf.png" /></p>
-<p>Una vez creado y editado el archivo de configuración, habilitamos la pàgina web</p>
-<pre><code>cd /etc/apache2/sites-available
-sudo a2ensite marina.conf
-</code></pre>
-<p><img alt="sites enable" src="sites_enable.png" /></p>
-<p>Antes de poder acceder a ella por el nombre que le hemos dado, en este caso <code>www.marina.com</code> debemos hacer al equipo que la propia máquina pueda resolver el nombre, esto lo especificaremos en <code>/etc/hosts</code></p>
-<pre><code>sudo nano /etc/hosts
-
-192.168.10.50 www.marina.com
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>192.168.10.50</strong> --&gt; es la ip de la propia máquina</li>
-<li><strong>www.marina.com</strong> --&gt; el nombre que buscaremos en el navegador</li>
-</ul>
-<p><img alt="/etc/hosts" src="etc_hosts.png" /></p>
-<ol>
-<li><strong>Comprobar el funcionamiento</strong>
-Ahora que ya está configurado vamos a entrar en el navegador y a buscar nuesra página web</li>
-</ol>
-<p><img alt="Marina's web" src="web_marina.png" /></p>
-<h3 id="configuracion-auth-digest">Configuración Auth Digest</h3>
-<ol>
-<li><strong>Creación del index y habilitar el modulo</strong></li>
-</ol>
-<p>Primero crearemos una carpeta llamada <code>digest</code> dentro de la carpeta que teniamos anterirmente creada. Dentro de esta crearemos el <code>index.html</code> y lo editaremos.</p>
-<pre><code>sudo mkdir digest
-sudo nano index.html
-</code></pre>
-<p>También habilitaremos el modulo que se necesita para poder configurar el auth digest.
-Y seguidamente reiniciaremos el servidcio de apache.</p>
-<pre><code>sudo a2enmod auth_digest
-</code></pre>
-<p><img alt="Carpeta digest más modulo" src="mkdir_digest.png" /></p>
-<ol>
-<li><strong>Creación del archivo de contraseñas</strong></li>
-</ol>
-<p>Vamos a crear el archivo donde pondremos las contraseñas de auth digest.</p>
-<pre><code>sudo mkdir /etc/apache/digestpasswd
-cd /etc/apache2/digestpasswd 
-sudo touch passdigest
-</code></pre>
-<p>Una vez creado vamos a usar el siguiente comando para añadir el usuario <code>proyecto</code> con contraseña <code>final</code>.</p>
-<pre><code>cd /etc/apache2/digestpasswd
-
-sudo htdigest -c  access proyecto
-</code></pre>
-<p><img alt="htdigest del usuario proyecto" src="htdigest_proyecto.png" /></p>
-<ol>
-<li><strong>Archivo de configuración</strong></li>
-</ol>
-<p>En el archivo de configuración (el que tenemos ya creado y habilitado), tendremos que añadir las siguientes lineas</p>
-<pre><code>&lt;Directory &quot;/var/www/html/marina/digest&quot;&gt;
-    AuthType Digest
-    AuthName &quot;access&quot;
-    AuthDigestProvider file
-    AuthFile &quot;/etc/apache2/digestpasswd/passdigest&quot;
-    Require valid-user
-&lt;/Directory&gt;
-</code></pre>
-<p><img alt="Archivo de configuracion digest" src="digest_conf.png" /></p>
-<ol>
-<li><strong>Comprobar el funcionamiento</strong></li>
-</ol>
-<p>Entraremos en el navegador, buscaremos la pagina web pero con una barra y el nombre de la carpeta que hemos creado:</p>
-<pre><code>http://www.marina.com/digest
-</code></pre>
-<p><img alt="Pagina web del digest" src="web_digest.png" /></p>
-<hr />
-<h2 id="configuracion-del-servidor-mysql">Configuración del servidor MySQL</h2>
-<ol>
-<li><strong>Instalación de mysql</strong></li>
-</ol>
-<pre><code>sudo apt update
-sudo apt install mysql-server
-</code></pre>
-<ol>
-<li><strong>Archivo de configuración</strong></li>
-</ol>
-<p>Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de <code>bind-address</code> y la cambiamos la dirección IP a <code>0.0.0.0</code></p>
-<pre><code>sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-
-bind-address  = 0.0.0.0
-</code></pre>
-<p><img alt="Bind 0.0.0.0" src="bind_mysql_server.png" /></p>
-<ol>
-<li><strong>Creación de la base de datos</strong></li>
-</ol>
-<p>Vamos a entrar en mysql a través de la terminal, crearemos la base de datos y las tablas.</p>
-<pre><code>sudo mysql
-
-CREATE DATABASE IF NOT EXISTS proyecto_final;
-USE proyecto_final;
-</code></pre>
-<p><img alt="Base de datos creada" src="mysql_bd.png" /></p>
-<pre><code>CREATE TABLE nombre_tabla (
-    columnas tipo esp,
-    columnas tipo esp
-);
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>nombre_tabla</strong> --&gt; es el nombre que le asignaremos a la tabla que crearemos</li>
-<li><strong>columnas</strong> --&gt; el nombre que tendrá la columna</li>
-<li><strong>tipo</strong> --&gt; el tipo de información que habrá<ul>
-<li>Ejemplo: INT, Varchar, etc</li>
-</ul>
-</li>
-<li><strong>esp</strong> --&gt; si es primary key, not null, auto_increment, etc<ul>
-<li>no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.</li>
-</ul>
-</li>
-</ul>
-<p><img alt="Creacion de una tabla" src="mysql_bd.png" /></p>
-<ol>
-<li><strong>Inserción de la información</strong></li>
-</ol>
-<p>Una vez que tengamos las tablas creadas podremos poner la información en estas.</p>
-<pre><code>INSERT INTO nombre_tabla (nombre_columna, nombre_columna, nombre_columna) VALUES
-(X,&quot;X&quot;, &quot;X&quot;),
-(X,&quot;X&quot;, &quot;X&quot;);
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>nombre_tabla</strong> --&gt; es el nombre de una de las tablas creadas</li>
-<li><strong>nombre_columna</strong> --&gt; es el nombre de la/s columna/s en las que añadiremos información</li>
-<li>
-<p><strong>X</strong> --&gt; es la información que especificaremos</p>
-<ul>
-<li>habrá tantas <code>X</code> como columnas haya</li>
-<li>los numeros se especificarán sin comillas</li>
-<li>las palabras se especificarán con comillas</li>
-</ul>
-</li>
-<li>
-<p><strong>Comprobar el funcionamiento</strong></p>
-</li>
-</ul>
-<p>Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas </p>
-<ul>
-<li>Listar todo de una tabla en específico</li>
-</ul>
-<pre><code>select * from tabla;
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>tabla</strong> --&gt; es el nombre de la tambla que queremos ver</li>
-</ul>
-<p><img alt="Select * from" src="select_table.png" /></p>
-<hr />
-<h2 id="configuracion-del-servicio-de-archivos">Configuración del servicio de archivos</h2>
-<ol>
-<li><strong>Asignar el mismo grupo de trabajo</strong></li>
-</ol>
-<p>Primero vamos a poenr los dos Windows 10 en el mismo grupo de trabajo, en mi caso lo he personalizado y los he puesto en <code>PF_MARINA</code>, iremos a:</p>
-<pre><code>Ajustes &gt; Sistema &gt; Acerca de &gt; Cambiar el nombre del equipo (avanzado) &gt; Cambiar
-
-Grupo de trabajo:   PF_MARINA
-</code></pre>
-<p>Nos pedirá reiniciar el equipo y ya los tendremos a los dos dentro del mismo grupo de trabajo.</p>
-<p><img alt="Grupo de trabajo del equipo Windows101" src="grupo_trabajo_w101.png" /></p>
-<p><img alt="Grupo de trabajo del equipo Windows102" src="grupo_trabajo_w102.png" /></p>
-<ol>
-<li><strong>Creación de la carpeta compartida</strong></li>
-</ol>
-<p>Vamos a crear la carpeta que vamos a compartir en uno de los dos equipos. No importa en que equipo creemos la carpeta, yo por ejemplo la crearé en el equipo <code>Windows102</code> y añadiré unos documentos dentro de esta.</p>
-<p><img alt="Elementos de la carpeta compartida" src="sharefolder_elementos.png" /></p>
-<ol>
-<li><strong>Creación de usuarios</strong></li>
-</ol>
-<p>Para poder hacer pruebas vamos a crear tres usuarios, los cuales tendrán diferentes permisos sobre la carpeta compartida.</p>
-<ul>
-<li>User1: Usuario1</li>
-<li>User2: Usuario2</li>
-<li>User3: Usuario3</li>
-</ul>
-<p>Iremos a:</p>
-<pre><code>Administrador de equipos &gt; Usuarios y grupos locales &gt; Usuarios
-
-Clic derecho &gt; Usuario Nuevo
-</code></pre>
-<p><img alt="Crear usuario nuevo" src="usuario_nuevo.png" /> </p>
-<ol>
-<li><strong>Compartir la carpeta</strong></li>
-</ol>
-<p>Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.</p>
-<ul>
-<li>User1: Usuario1<ul>
-<li>Lectura y escritura</li>
-</ul>
-</li>
-<li>User2: Usuario2<ul>
-<li>Solo lectura</li>
-</ul>
-</li>
-<li>User3: Usuario3<ul>
-<li>Denegaremos el acceso</li>
-</ul>
-</li>
-</ul>
-<p>Haremos lo siguiente en la carpeta</p>
-<pre><code>Clic derecho &gt; Propiedades &gt; Compartir &gt; Uso compartido avanzado &gt; Compartir esta carpeta
-
-Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
-</code></pre>
-<p><img alt="Compartir la carpeta" src="compartir_sharefolder.png" /></p>
-<p><img alt="Permisos del user1" src="user1_permisos.png" /></p>
-<p><img alt="Permisos del user2" src="user2_permisos.png" /></p>
-<p><img alt="Permisos del user3" src="user3_permisos.png" /></p>
-<ol>
-<li><strong>Configuración del escritorio remoto</strong></li>
-</ol>
-<p>En el equipo <code>Windows102</code> entraremos en <code>Ajustes &gt; Sistema &gt; Acerca de &gt; Configuración Avanzada del sistema &gt;  Acceso Remoto</code>, activaremos el acceso remoto y especificaremos que solo podremos acceder si nos logeamos desde los usuario <code>user1</code>, <code>user2</code> y <code>user3</code></p>
-<p><img alt="Escritorio remoto activado" src="escritorio_remoto.png" /></p>
-<ol>
-<li><strong>Comprobar el funcionamiento</strong></li>
-</ol>
-<p>Vamos a comprobar que funciona de diferentes formas, usando el escritorio remoto desde el equipo de <code>Windows101</code> nos logearemos con los 3 usuarios, desde el equipo <code>Windows101</code> intentaremos acceder a la carpeta y desde el propio equipo <code>Windoiws102</code> nos logearemos con los 3 usuarios.</p>
-<pre><code>Explorador de archivos &gt; Red &gt; \\172.16.10.60
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>\ \172.16.10.60</strong> --&gt; es la dirección IP del equipo donde se encuentra a carpeta compartida</li>
-</ul>
-<p><strong>Desde el equipo de Windows102</strong></p>
-<p><em>User1</em></p>
-<p><img alt="RW User1" src="user1.png" /></p>
-<p><em>User2</em></p>
-<p><img alt="R User2" src="user2.png" /></p>
-<p><em>User3</em></p>
-<p><img alt="D User3" src="user3.png" /></p>
-<p><strong>Desde el escritorio remoto del equipo de Windows101</strong></p>
-<p><em>User1</em></p>
-<p><img alt="Credenciales del user1 en escritorio remoto" src="credenciales_user1.png" /></p>
-<p><img alt="Escritorio remoto del user1" src="user1_ER.png" /></p>
-<p><em>User2</em></p>
-<p><img alt="Credenciales del user2 en escritorio remoto" src="credenciales_user2.png" /></p>
-<p><img alt="Escritorio remoto del user2" src="user2_ER.png" /></p>
-<p><em>User3</em></p>
-<p><img alt="Credenciales del user3 en escritorio remoto" src="credenciales_user3.png" /></p>
-<p><img alt="Escritorio remoto del user3" src="user3_ER.png" /></p>
-<p><strong>Desde el equipo de Windows101</strong></p>
-<p><img alt="Desde Windows101" src="W101.png" /></p>
+<h2 id="monitorizacion-desde-pandora-fms">Monitorización desde Pandora FMS</h2>
               
             </div>
           </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="Routers/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
 
   <hr/>
 
@@ -709,6 +173,8 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
     
     
     
+      <span><a href="Routers/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
   </span>
 </div>
     <script src="js/jquery-3.6.0.min.js"></script>
@@ -727,5 +193,5 @@ Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2025-04-24 10:33:41.645232+00:00
+Build Date UTC : 2025-04-24 11:35:57.821165+00:00
 -->

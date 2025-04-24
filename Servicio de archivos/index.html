@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Index - Marina's Final Project</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Index";
+        var mkdocs_page_input_path = "Servicio de archivos/index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Marina's Final Project
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Projecte Final: Monitorización de Red y Servicios con Pandora FMS en GNS3</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Routers</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Routers/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servicio de archivos</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Index</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor MySQL</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servidor%20MySQL/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Servidor Web</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Servidor%20Web/">Index</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Ubuntu Server</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../Ubuntu%20Server/">Index</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Marina's Final Project</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Servicio de archivos</li>
+      <li class="breadcrumb-item active">Index</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="configuracion-del-servicio-de-archivos">Configuración del servicio de archivos</h2>
+<ol>
+<li><strong>Asignar el mismo grupo de trabajo</strong></li>
+</ol>
+<p>Primero vamos a poenr los dos Windows 10 en el mismo grupo de trabajo, en mi caso lo he personalizado y los he puesto en <code>PF_MARINA</code>, iremos a:</p>
+<pre><code>Ajustes &gt; Sistema &gt; Acerca de &gt; Cambiar el nombre del equipo (avanzado) &gt; Cambiar
+
+Grupo de trabajo:   PF_MARINA
+</code></pre>
+<p>Nos pedirá reiniciar el equipo y ya los tendremos a los dos dentro del mismo grupo de trabajo.</p>
+<p><img alt="Grupo de trabajo del equipo Windows101" src="grupo_trabajo_w101.png" /></p>
+<p><img alt="Grupo de trabajo del equipo Windows102" src="grupo_trabajo_w102.png" /></p>
+<ol>
+<li><strong>Creación de la carpeta compartida</strong></li>
+</ol>
+<p>Vamos a crear la carpeta que vamos a compartir en uno de los dos equipos. No importa en que equipo creemos la carpeta, yo por ejemplo la crearé en el equipo <code>Windows102</code> y añadiré unos documentos dentro de esta.</p>
+<p><img alt="Elementos de la carpeta compartida" src="sharefolder_elementos.png" /></p>
+<ol>
+<li><strong>Creación de usuarios</strong></li>
+</ol>
+<p>Para poder hacer pruebas vamos a crear tres usuarios, los cuales tendrán diferentes permisos sobre la carpeta compartida.</p>
+<ul>
+<li>User1: Usuario1</li>
+<li>User2: Usuario2</li>
+<li>User3: Usuario3</li>
+</ul>
+<p>Iremos a:</p>
+<pre><code>Administrador de equipos &gt; Usuarios y grupos locales &gt; Usuarios
+
+Clic derecho &gt; Usuario Nuevo
+</code></pre>
+<p><img alt="Crear usuario nuevo" src="usuario_nuevo.png" /> </p>
+<ol>
+<li><strong>Compartir la carpeta</strong></li>
+</ol>
+<p>Ahora que tenemos la carpeta y los usuarios creados, vamos a compartir la carpeta y les asignaremos los siguientes permisos a los usuarios que hemos creado sobre la carpeta que vamos a compartir.</p>
+<ul>
+<li>User1: Usuario1<ul>
+<li>Lectura y escritura</li>
+</ul>
+</li>
+<li>User2: Usuario2<ul>
+<li>Solo lectura</li>
+</ul>
+</li>
+<li>User3: Usuario3<ul>
+<li>Denegaremos el acceso</li>
+</ul>
+</li>
+</ul>
+<p>Haremos lo siguiente en la carpeta</p>
+<pre><code>Clic derecho &gt; Propiedades &gt; Compartir &gt; Uso compartido avanzado &gt; Compartir esta carpeta
+
+Clic derecho &gt; Propiedades &gt; Seguridad &gt; Editar &gt; Agregar
+</code></pre>
+<p><img alt="Compartir la carpeta" src="compartir_sharefolder.png" /></p>
+<p><img alt="Permisos del user1" src="user1_permisos.png" /></p>
+<p><img alt="Permisos del user2" src="user2_permisos.png" /></p>
+<p><img alt="Permisos del user3" src="user3_permisos.png" /></p>
+<ol>
+<li><strong>Configuración del escritorio remoto</strong></li>
+</ol>
+<p>En el equipo <code>Windows102</code> entraremos en <code>Ajustes &gt; Sistema &gt; Acerca de &gt; Configuración Avanzada del sistema &gt;  Acceso Remoto</code>, activaremos el acceso remoto y especificaremos que solo podremos acceder si nos logeamos desde los usuario <code>user1</code>, <code>user2</code> y <code>user3</code></p>
+<p><img alt="Escritorio remoto activado" src="escritorio_remoto.png" /></p>
+<ol>
+<li><strong>Comprobar el funcionamiento</strong></li>
+</ol>
+<p>Vamos a comprobar que funciona de diferentes formas, usando el escritorio remoto desde el equipo de <code>Windows101</code> nos logearemos con los 3 usuarios, desde el equipo <code>Windows101</code> intentaremos acceder a la carpeta y desde el propio equipo <code>Windoiws102</code> nos logearemos con los 3 usuarios.</p>
+<pre><code>Explorador de archivos &gt; Red &gt; \\172.16.10.60
+</code></pre>
+<p>Donde:</p>
+<ul>
+<li><strong>\ \172.16.10.60</strong> --&gt; es la dirección IP del equipo donde se encuentra a carpeta compartida</li>
+</ul>
+<p><strong>Desde el equipo de Windows102</strong></p>
+<p><em>User1</em></p>
+<p><img alt="RW User1" src="user1.png" /></p>
+<p><em>User2</em></p>
+<p><img alt="R User2" src="user2.png" /></p>
+<p><em>User3</em></p>
+<p><img alt="D User3" src="user3.png" /></p>
+<p><strong>Desde el escritorio remoto del equipo de Windows101</strong></p>
+<p><em>User1</em></p>
+<p><img alt="Credenciales del user1 en escritorio remoto" src="credenciales_user1.png" /></p>
+<p><img alt="Escritorio remoto del user1" src="user1_ER.png" /></p>
+<p><em>User2</em></p>
+<p><img alt="Credenciales del user2 en escritorio remoto" src="credenciales_user2.png" /></p>
+<p><img alt="Escritorio remoto del user2" src="user2_ER.png" /></p>
+<p><em>User3</em></p>
+<p><img alt="Credenciales del user3 en escritorio remoto" src="credenciales_user3.png" /></p>
+<p><img alt="Escritorio remoto del user3" src="user3_ER.png" /></p>
+<p><strong>Desde el equipo de Windows101</strong></p>
+<p><img alt="Desde Windows101" src="W101.png" /></p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../Routers/" class="btn btn-neutral float-left" title="Index"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Servidor%20MySQL/" class="btn btn-neutral float-right" title="Index">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../Routers/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Servidor%20MySQL/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
