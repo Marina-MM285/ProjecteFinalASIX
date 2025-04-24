@@ -20,19 +20,17 @@
     - **Xarxa 2**: `172.16.10.0/24`.
 
 
-**Switch 1**:
+**Router Cisco**:
   
   - Dispositivos conectados:
-    - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
     - Ubuntu Desktop (IP reservada: `192.168.10.50`, servidor web).
     - Windows 10 (IP reservada: `192.168.10.60`, servicio de archivos).
 
 
-**Switch 2**:
+**Router Mikrotik**:
   
   - Dispositivos conectados:
-    - Firefox (IP asignada por DHCP).
     - VPC (IP asignada por DHCP).
     - Ubuntu Desktop (IP reservada: `172.16.10.50`, servidor MySQL).
     - Windows 10 (IP reservada: `172.16.10.60`, servicio de archivos).
