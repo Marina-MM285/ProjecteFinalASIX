@@ -109,7 +109,7 @@ copy run start
 ![Show ip dhcp binding](dhcp_binding.png)
 
 
-1. **Enrutamiento entre redes**
+4. **Enrutamiento entre redes**
 
 Vamos a indicarle al router cómo llegar a la red del otro router, vamos a ejecutar los siguientes comandos:
 
@@ -131,7 +131,7 @@ show ip route
 
 
 
-1. **Comprobar la funcionalidad**
+5. **Comprobar la funcionalidad**
 
 Una vez hayamos hecho todo esto ya tendriamos la configuración terminada.
 
@@ -162,7 +162,7 @@ Iremos al apartado `IP > Addresses`
 ![Addresses list](address_list.png)
 
 
-1. **Configuración DHCP**
+2. **Configuración DHCP**
 
 Vamos al apartado `IP > DHCP Server` y en el botón de `DHCP Setup` podremos configurar el pool de direcciones, DNS, red, etc.
 
@@ -178,7 +178,7 @@ Para reservar direcciones IP tendremos entrar en `IP > DHCP Server > Leases`, aq
 ![DHCP leases](dhcp_leases.png)
 
 
-1. **Enrutamiento entre redes**
+4. **Enrutamiento entre redes**
 
 Vamos a indicarle al router cómo llegar a la red del otro router, entraremos en `IP > Routes` y agregaremos una nueva ruta especificando los siguiente:
 

@@ -22,7 +22,7 @@ sudo apt install apache2 mariadb-server mariadb-client php
 ```
 
 
-1. **Configuracion de seguridad de MySQL**
+2. **Configuracion de seguridad de MySQL**
 
 Para añadir seguridad a las base de datos, al acceso a mysql, etc. Vamos a ejecutar el siguiente comando donde podremos añadir una contraseña al usuario root y nos preguntará si hace una serie de cosas como quitar los usuarios anónimos, quitar el acceso a las base de datos de prueba y actualizar las tablas.
 
@@ -38,7 +38,7 @@ Reload privilege tables now? → y (yes)
 *Nos preguntará también si queremos cambiar la contraseña de `root@localhost`, en mi caso yo le he puesto `root`. La podremos cambiar una vez entremos en mysql*
 
 
-2. **Configuración de mariaDB**
+3. **Configuración de mariaDB**
 
 Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración
 
@@ -66,7 +66,7 @@ flush privileges;
 ![Root de pandora](root_pandora.png)
 
 
-1. **Creación de la base de datos y el usuario**
+4. **Creación de la base de datos y el usuario**
 
 Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cliente
 
@@ -83,7 +83,7 @@ EXIT;
 ![Database de pandora](databse_pandora.png)
 
 
-1. **Descarga e instalación de Pandora FMS**
+5. **Descarga e instalación de Pandora FMS**
 
 Clonaremos el repositorio de github de pandora y damos permisos a este
 
@@ -97,7 +97,7 @@ sudo chmod -R 755 /var/www/html/pandora_console
 
 ![Git clone, move y permisos](git_permisos.png)
 
-1. **Configuración de Apache**
+6. **Configuración de Apache**
 
 Para ello creamos y editamos el archivo de configuración y lo habilitamos
 
@@ -115,7 +115,7 @@ sudo systemctl status apache2
 
 
 
-1. **Finalizar instalacion en el navegador**
+7. **Finalizar instalacion en el navegador**
 
 Una vez hecha la instalación y configuración de apache, podremos acceder a través de un navegador buscando lo siguiente:
 
@@ -140,7 +140,7 @@ Cuando encuentre la base de datos se creará
 ![alt text](pandora_paso5.png)
 
 
-1. **Instalación y configuración del serrvidor de Pandora FMS**
+8. **Instalación y configuración del serrvidor de Pandora FMS**
 
 
 
