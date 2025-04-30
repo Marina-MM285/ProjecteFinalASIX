@@ -3,7 +3,7 @@
 ## Dispositivos y Red
 **NAT**
 
-**Ubuntu Server (Servidor DHCP)**:
+**Ubuntu**:
   
   - Pandora FMS
 

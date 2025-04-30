@@ -27,8 +27,8 @@
 
 **Resum:**
 
-- He creat una xarxa en GNS3 amb diferents servicis per a monitorar-ho amb la ferramenta *PandoraFMS.
-  - He gestat dos routers, un cisco i un mikrotik per a donar adreces IP.
+- He creat una xarxa en GNS3 amb diferents servicis per a monitorar-ho amb la ferramenta PandoraFMS.
+  - He gastat dos routers, un cisco i un mikrotik per a donar adreces IP.
   - He creat una pàgina web, una base de dades i he compartit una carpeta entre dos equips windows 10.
     - En un equip amb windwos 10 hi ha 3 usuaris amb diferents permisos per a fer comprovacions, també he gastat l'escriptori remot per a fer comprovacions.
 
