@@ -52,7 +52,7 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Instalación de Pandora</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#configuracion-del-netplan">Configuración del netplan</a>
+    <li class="toctree-l2"><a class="reference internal" href="#instalacion-de-pandora-fms">Instalación de Pandora FMS</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configuracion-de-pandora-fms">Configuración de Pandora FMS</a>
     </li>
@@ -109,105 +109,33 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="configuracion-del-ubuntu-server">Configuración del Ubuntu Server</h2>
-<h3 id="configuracion-del-netplan"><strong>Configuración del netplan</strong></h3>
-<pre><code>sudo nano /etc/netplan/50-cloud-init.yaml
-sudo netplan apply
-</code></pre>
-<h3 id="configuracion-de-pandora-fms"><strong>Configuración de Pandora FMS</strong></h3>
+<h3 id="instalacion-de-pandora-fms"><strong>Instalación de Pandora FMS</strong></h3>
 <ol>
-<li><strong>Instalación de depenencias:</strong></li>
+<li><strong>Obtener script</strong></li>
 </ol>
-<p>Tendremos que instalar las siguientes dependencias:</p>
-<ul>
-<li>apache2</li>
-<li>mariaDB</li>
-<li>php</li>
-</ul>
-<pre><code>sudo apt install apache2 mariadb-server mariadb-client php
+<p>Usando el siguiente comando obtendremos el script que nos instalará Pandora FMS</p>
+<pre><code>curl -SsL https://pfms.me/deployenterprise
 </code></pre>
 <ol>
-<li><strong>Configuracion de seguridad de MySQL</strong></li>
+<li><strong>Instalación de PandoraFMS</strong></li>
 </ol>
-<p>Para añadir seguridad a las base de datos, al acceso a mysql, etc. Vamos a ejecutar el siguiente comando donde podremos añadir una contraseña al usuario root y nos preguntará si hace una serie de cosas como quitar los usuarios anónimos, quitar el acceso a las base de datos de prueba y actualizar las tablas.</p>
-<pre><code>sudo mysql_secure_installation
-
-Remove anonymous users? → y (yes)
-Disallow root login remotely? → n (no)
-Remove test database and access to it? → y (yes)
-Reload privilege tables now? → y (yes)
-</code></pre>
-<p><em>Nos preguntará también si queremos cambiar la contraseña de <code>root@localhost</code>, en mi caso yo le he puesto <code>root</code>. La podremos cambiar una vez entremos en mysql</em></p>
-<ol>
-<li><strong>Configuración de mariaDB</strong></li>
-</ol>
-<p>Hay que tener en cuenta que vamos a acceder desde una máquina diferente al server,por lo que tenenmos que editar el archivo de configuración</p>
-<p>Buscaremos la linea de <code>bind-address</code> y le pondremos <code>0.0.0.0</code></p>
-<pre><code>sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
-
-bind-address: 0.0.0.0
-</code></pre>
-<p><img alt="Bind del pandora" src="../bind_pandora.png" /></p>
-<p>Ahora entraremos en mysql y crearemos, si no existe, el usuario root y le daremos permisos para que pueda hacerlo todo.</p>
-<pre><code>sudo mysql
-
-create user ‘root’@’%’ identified with mysql_native_password by ‘Root_pf1’;
-grant all on *.* to 'root'@'%';
-flush privileges;
-</code></pre>
-<p><img alt="Root de pandora" src="../root_pandora.png" /></p>
-<ol>
-<li><strong>Creación de la base de datos y el usuario</strong></li>
-</ol>
-<p>Vamos a crear la base de datos y el usuario con el cuál accederemos desde el cliente</p>
-<pre><code>sudo mysql -u root -p
-
-CREATE DATABASE pandora;
-CREATE USER 'pandora'@'%' IDENTIFIED BY 'Pandora_fms1';
-GRANT ALL PRIVILEGES ON pandora.* TO 'pandora'@'%';
-FLUSH PRIVILEGES;
-EXIT;
-</code></pre>
-<p><img alt="Database de pandora" src="../databse_pandora.png" /></p>
-<ol>
-<li><strong>Descarga e instalación de Pandora FMS</strong></li>
-</ol>
-<p>Clonaremos el repositorio de github de pandora y damos permisos a este</p>
-<pre><code>git clone https://github.com/pandorafms/pandorafms.git
-sudo mv pandorafms/pandora_console /var/www/html/pandora_console
-
-sudo chown -R www-data:www-data /var/www/html/pandora_console
-sudo chmod -R 755 /var/www/html/pandora_console
-</code></pre>
-<p><img alt="Git clone, move y permisos" src="../git_permisos.png" /></p>
-<ol>
-<li><strong>Configuración de Apache</strong></li>
-</ol>
-<p>Para ello creamos y editamos el archivo de configuración y lo habilitamos</p>
-<pre><code>sudo cp 000-default.conf pandora.conf
-sudo nano pandora.conf
-
-sudo a2ensite pandora.conf
-sudo systemctl reload apache2
-sudo systemctl restart apache2
-sudo systemctl status apache2
-</code></pre>
-<p><img alt="Pandora.conf" src="../pandora.conf.png" /></p>
+<p>Antes de empezar con la instalación comentaremos la linea que se encuentra en <code>/etc/apt/source.list</code></p>
+<p><img alt="Edicion del archvio source.list" src="../linea_comentada.png" /></p>
+<p>Una vez comentada la linea le daremos permisos al script </p>
+<p><img alt="Assignar permisos al script" src="../permisos_script.png" /></p>
+<p>Luego crearemos la variable <code>PANDORA_LTS</code> a la cual le asignaremos el valor de <code>1</code> y ejecutaremos el script desde <code>root</code></p>
+<p><img alt="Variable Pandora_LTS" src="../variable_ejecucion_script.png" /></p>
 <ol>
 <li><strong>Finalizar instalacion en el navegador</strong></li>
 </ol>
-<p>Una vez hecha la instalación y configuración de apache, podremos acceder a través de un navegador buscando lo siguiente:</p>
-<pre><code>http://192.168.122.16/pandora_console
+<p>Una vez hecha la instalación nos aparecerá la ip con su usuario y contraseña para poder acceder a Pandora desde el navegador</p>
+<pre><code>http://192.168.122.254/pandora_console
 </code></pre>
-<p>Teniendo en cuenta que la dirección <code>192.168.122.16</code> es la ip del servidor y <code>pandora_console</code> la carpeta que hemos movido a <code>/var/www/html</code></p>
-<p><img alt="instalacion de pandora" src="../pandora_install.png" /></p>
-<p>Una vez dentro simplemente seguimos los pasos de la instalación, nos indicará si hay alguna dependencia que no esté instalada.</p>
-<p><img alt="dependencias instaladas" src="../pandora_dependencias_install.png" /></p>
-<p>Y nos preguntará acerca de los datos de la base de datos.</p>
-<p><img alt="Datos de la base de datos y el servidor" src="../pandora_BD_datos.png" /></p>
-<p>Cuando encuentre la base de datos se creará</p>
-<p><img alt="alt text" src="../pandora_paso5.png" /></p>
+<p><img alt="IP para entrar desde el navegador" src="../ip_navegador.png" /></p>
+<p><img alt="Login de pandora" src="../login_pandora.png" /></p>
+<h3 id="configuracion-de-pandora-fms"><strong>Configuración de Pandora FMS</strong></h3>
 <ol>
-<li><strong>Instalación y configuración del serrvidor de Pandora FMS</strong></li>
+<li><strong>????</strong></li>
 </ol>
               
             </div>
