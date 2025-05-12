@@ -42,14 +42,37 @@ http://192.168.122.254/pandora_console
 
 ### **Configuración de Pandora FMS**
 
-1. **????**
+1. **Creación de agentes**
+
+Vamos a instalar en los clientes Ubuntu y Windows agentes para poder monitorizarlos.
+Nos descargamos de la pagina oficial de pandora el paquete `pandorafms_one_agent_linux-latest.tar.gz`, lo descomprimimos, buscamos el paquete de `pandora_agent_installer` dentro de la carpeta `unix` y lo instalamos.
+
+```
+https://pandorafms.com/manual/!current/en/documentation/pandorafms/technical_annexes/32_pfms_install_software_agent
+
+tar xvzf pandorafms_one_agent_linux-latest.tar.gz
+cd unix/
+./pandora_agent_installer --install
+```
+![alt text](Instalacion_agente.png)
+
+![alt text](paquete_descomprimido.png)
 
 
+Una vez descomprimido e instalado editamos el fichero `/etc/pandorafms/pandora_agent.conf`, donde pondremos la ip del servidor de pandora.
+
+![alt text](editar_ficher.png)
+
+![alt text](cambiar_ip_server.png)
 
 
+ Iniciamos el agente y esperamos a que nos aparezca en nuestro Pandora.
 
+```
+sudo systemctl start pandora_agent_daemon
+```
 
-
+![alt text](activar_agente_ubuntu.png)
 
 
 
