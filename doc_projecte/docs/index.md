@@ -49,7 +49,7 @@
 - Administració de sistemes operatius (ASO)
 
 
-**Fecha de presentación:** 12 de Junio de 2025
+**Fecha de presentación:** 2/6 de Junio de 2025
 
 
 

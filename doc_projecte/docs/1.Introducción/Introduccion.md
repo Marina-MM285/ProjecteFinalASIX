@@ -33,4 +33,4 @@
     - Ubuntu Desktop (IP reservada: `172.16.10.50`, servidor MySQL).
     - Windows 10 (IP reservada: `172.16.10.60`, servicio de archivos).
 
-*FOTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO*
+![alt text](<PR_Escenario final.png>)
