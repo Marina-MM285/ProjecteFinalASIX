@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>MySQL - Marina's Final Project</title>
+    <title>Sistema de alertas con Telegram - Marina's Final Project</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "MySQL";
-        var mkdocs_page_input_path = "4.Servidor MySQL/MySQL.md";
+        var mkdocs_page_name = "Sistema de alertas con Telegram";
+        var mkdocs_page_input_path = "8.Alertas/Alertas con Telegram.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -59,10 +59,8 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">4.Servidor MySQL</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">MySQL</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../4.Servidor%20MySQL/MySQL/">MySQL</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">5.Servicio de archivos</span></p>
@@ -81,8 +79,26 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">8.Alertas</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../8.Alertas/Alertas%20con%20Telegram/">Sistema de alertas con Telegram</a>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Sistema de alertas con Telegram</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#bot-configuracion-en-el-server">Bot &amp; Configuración en el server</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#creacion-del-bot-de-telegram">Creación del bot de Telegram</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configuracion-del-servidor">Configuración del servidor</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prueba-del-mensaje-a-telegram">Prueba del mensaje a Telegram</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pandora">Pandora</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#configuracion-de-la-alerta">Configuración de la alerta</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">9.Problemas y soluciones</span></p>
@@ -104,8 +120,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">4.Servidor MySQL</li>
-      <li class="breadcrumb-item active">MySQL</li>
+          <li class="breadcrumb-item">8.Alertas</li>
+      <li class="breadcrumb-item active">Sistema de alertas con Telegram</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -114,97 +130,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="configuracion-del-servidor-mysql">Configuración del servidor MySQL</h2>
-<ol>
-<li><strong>Entidad-Relación de la base de datos</strong></li>
-</ol>
-<p><img alt="Entidad-Relación" src="../E-R_PF_Marina%20Mi%C3%B1ana.drawio.png" /></p>
-<ol>
-<li><strong>Instalación de mysql</strong></li>
-</ol>
-<pre><code>sudo apt update
-sudo apt install mysql-server
+                <h1 id="sistema-de-alertas-con-telegram">Sistema de alertas con Telegram</h1>
+<h2 id="bot-configuracion-en-el-server">Bot &amp; Configuración en el server</h2>
+<h3 id="creacion-del-bot-de-telegram">Creación del bot de Telegram</h3>
+<p>Lo primero que debemos hacer es crearnos un bot en telegram.</p>
+<p>Usaremos "@botfather" para hacer la creación, donde nos dará el token.</p>
+<p><img alt="alt text" src="../bot_alertas.png" /></p>
+<p>Luego crearemos un grupo con dicho bot, de ahí sacaremos el chatID del grupo para que nos envie los mensajes a ese grupo.</p>
+<p><img alt="alt text" src="../grupo_Alertas.png" /></p>
+<h3 id="configuracion-del-servidor">Configuración del servidor</h3>
+<p>Una vez creado el grupo de Telegram pasaremos descargarnos un paquete de la libreria oficial de pandora que nos permitirá enviar mensajes.</p>
+<p><img alt="alt text" src="../libreria.png" /></p>
+<p><img alt="alt text" src="../paquete_telegram_library.png" /></p>
+<p>Descomprimimos el paquete, le damos permisos de ejecución y lo ponemos dentro de la ruta <code>/usr/share/pandora_server/utils/pluggin</code></p>
+<pre><code>sudo chmod +x *
 </code></pre>
-<ol>
-<li><strong>Archivo de configuración</strong></li>
-</ol>
-<p>Vamos a editar el archivo de configuración para que se pueda acceder desde las demás máquinas. Accedemos a él, buscamos la linea de <code>bind-address</code> y la cambiamos la dirección IP a <code>0.0.0.0</code></p>
-<pre><code>sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+<p><img alt="alt text" src="../paquetes_en_ruta.png" /></p>
+<p>Antes de seguir, nos harán falta python3 y python3-pip para poder instalar lo que que necesitamos para seguir adelante.</p>
+<pre><code>sudo apt install python3 python3-pip
+</code></pre>
+<p>Ahora que ya tenemos las herramientas que necesitamos nos posicionamos en la ruta donde hemos dejado los paquetes desmcomprimidos e instalamos el paquete de <code>requirements.txt</code></p>
+<pre><code>cd /usr/share/pandora_server/utils/pluggin
 
-bind-address  = 0.0.0.0
-</code></pre>
-<p><img alt="bind-address" src="../bind_address.png" /></p>
-<ol>
-<li><strong>Creación de la base de datos</strong></li>
-</ol>
-<p>Vamos a entrar en mysql a través de la terminal, crearemos la base de datos y las tablas.</p>
-<pre><code>sudo mysql
+sudo su --&gt; necesitaremos los permisos de root para hacerlo
 
-CREATE DATABASE IF NOT EXISTS proyecto_final;
-USE proyecto_final;
+pip3 install requirements.txt
 </code></pre>
-<p><img alt="Base de datos creada" src="../mysql_bd.png" /></p>
-<pre><code>CREATE TABLE nombre_tabla (
-    columnas tipo esp,
-    columnas tipo esp
-);
+<p><img alt="alt text" src="../requirements.txt.png" /></p>
+<h3 id="prueba-del-mensaje-a-telegram">Prueba del mensaje a Telegram</h3>
+<p>Ejecutaremos el siguiente comando para comprobar que podemos recibir mensajes en el grupo de Telegram que hemos creado.</p>
+<pre><code>pyhton3 pandora-telegram-cli.py -t *TOKEN* -c *CHATID* -m *&quot;MENSAJE&quot;*
 </code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>nombre_tabla</strong> --&gt; es el nombre que le asignaremos a la tabla que crearemos</li>
-<li><strong>columnas</strong> --&gt; el nombre que tendrá la columna</li>
-<li><strong>tipo</strong> --&gt; el tipo de información que habrá<ul>
-<li>Ejemplo: INT, Varchar, etc</li>
-</ul>
-</li>
-<li><strong>esp</strong> --&gt; si es primary key, not null, auto_increment, etc<ul>
-<li>no es necesario poner siempre algo, es decir, si es una clave primaria lo especificaremos, pero en caso de que no fuera clave primaria o pudiera ser nulo (por ejemplo), no haría falta especificar nada.</li>
-</ul>
-</li>
-</ul>
-<p><img alt="Creacion de una tabla" src="../ej_create_table.png" /></p>
-<p><img alt="Show tables" src="../show_tables_mysql.png" /></p>
-<ol>
-<li><strong>Inserción de la información</strong></li>
-</ol>
-<p>Una vez que tengamos las tablas creadas podremos poner la información en estas.</p>
-<pre><code>INSERT INTO nombre_tabla (nombre_columna, nombre_columna, nombre_columna) VALUES
-(X,&quot;X&quot;, &quot;X&quot;),
-(X,&quot;X&quot;, &quot;X&quot;);
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>nombre_tabla</strong> --&gt; es el nombre de una de las tablas creadas</li>
-<li><strong>nombre_columna</strong> --&gt; es el nombre de la/s columna/s en las que añadiremos información</li>
-<li>
-<p><strong>X</strong> --&gt; es la información que especificaremos</p>
-<ul>
-<li>habrá tantas <code>X</code> como columnas haya</li>
-<li>los numeros se especificarán sin comillas</li>
-<li>las palabras se especificarán con comillas</li>
-</ul>
-</li>
-<li>
-<p><strong>Comprobar el funcionamiento</strong></p>
-</li>
-</ul>
-<p>Para ver lo que hemos hecho vamos a hacer unas consultas a las tablas </p>
-<ul>
-<li>Listar todo de una tabla en específico</li>
-</ul>
-<pre><code>select * from tabla;
-</code></pre>
-<p>Donde:</p>
-<ul>
-<li><strong>tabla</strong> --&gt; es el nombre de la tabla que queremos ver</li>
-</ul>
-<p><img alt="Select * from" src="../select_table.png" /></p>
+<p><img alt="alt text" src="../prueb_sin_token.png" /></p>
+<h2 id="pandora">Pandora</h2>
+<h3 id="configuracion-de-la-alerta">Configuración de la alerta</h3>
+<p>Una vez comprobado que se pueden enviar mensajes vamos a crear el comando dentro de la interfaz gráfica de Pandora para poder usarlo.</p>
+<p>Donde  añadiremos el comando que hemos usado anteriormente pero sustetuyendo por campos que más abajo, en fields, rellenaremos con al ifnormación necesaria.</p>
+<p><code>Management &gt; Alerts &gt; Commands</code></p>
+<p><img alt="alt text" src="../commands.png" /></p>
+<p>Después configuraremos la acción, donde enlazaremos la acción al comando que hemos creado y añadiremos el mensaje que queremos recibir.</p>
+<p><code>Management &gt; Alerts &gt; Actions</code></p>
+<p><img alt="alt text" src="../actions.png" /></p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../../3.Servidor%20Web/Apache2/" class="btn btn-neutral float-left" title="Apache2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../5.Servicio%20de%20archivos/Compartir%20carpetas%20y%20archivos/" class="btn btn-neutral float-right" title="Compartir carpetas y archivos">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../../7.Monitorizaci%C3%B3n/PandoraFMS/" class="btn btn-neutral float-left" title="Creación  de agentes en Pandora FMS"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../9.Problemas%20y%20soluciones/Problemas%26Soluciones/" class="btn btn-neutral float-right" title="Problemas y Soluciones">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -227,10 +199,10 @@ USE proyecto_final;
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../../3.Servidor%20Web/Apache2/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../../7.Monitorizaci%C3%B3n/PandoraFMS/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../../5.Servicio%20de%20archivos/Compartir%20carpetas%20y%20archivos/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../../9.Problemas%20y%20soluciones/Problemas%26Soluciones/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
