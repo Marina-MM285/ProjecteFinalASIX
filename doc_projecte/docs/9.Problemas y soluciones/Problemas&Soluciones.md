@@ -50,7 +50,32 @@ Busqué en la pagina oficial de Pandora a ver si habia otra forma de hacerlo y p
 
 ## Alertas con Telegram
 **Problema**
-Intenté crear mi propia alarma, con un comando que encontré por internet, pero cuando simulaba el fallo no se me enviaba ningún mensaje al chat que habia creado.
+
+Intenté crear mi propia alarma, con un comando que encontré por internet, pero no recibia mensaje alguno.
+Intenté seguir una documentación de Pandora usando el comando predeterminado que venia en el propio Pandora, pero tampoco sirvió
+
+**Solución**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
